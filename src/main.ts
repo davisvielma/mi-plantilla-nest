@@ -1,9 +1,11 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './modules/shared/exceptions/filters';
 import { ResponseInterceptor } from './modules/shared/interceptors';
+import { JwtAuthGuard } from './modules/shared/guards/jwt-auth.guard';
+import { RolesGuard } from './modules/shared/guards/roles.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -32,6 +34,9 @@ async function bootstrap() {
     origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
     credentials: true,
   });
+
+  const reflector = app.get(Reflector);
+  app.useGlobalGuards(new JwtAuthGuard(reflector), new RolesGuard(reflector));
 
   const config = new DocumentBuilder()
     .setTitle('API Plantilla NestJS')

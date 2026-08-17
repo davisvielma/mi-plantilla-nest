@@ -17,8 +17,9 @@ export class RolesSeeder implements Seeder {
     const roleRepo = dataSource.getRepository(RoleOrmEntity);
 
     const roles = [
-      { id: uuid(), name: 'admin', description: 'Administrador del sistema' },
-      { id: uuid(), name: 'user', description: 'Usuario regular' },
+      { id: uuid(), name: 'admin' },
+      { id: uuid(), name: 'super-user' },
+      { id: uuid(), name: 'user' },
     ];
 
     console.log('🌱 Sembrando roles...');

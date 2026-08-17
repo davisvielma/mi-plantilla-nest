@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { join } from 'path';
 import { SeederOptions } from 'typeorm-extension';
-import { MainSeeder } from './seeders/main.seeder';
+import { MainSeeder } from './seeders';
 import {
   RoleOrmEntity,
   UserOrmEntity,
