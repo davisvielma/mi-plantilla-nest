@@ -35,7 +35,7 @@ export class UserOrmEntity {
 
   @ManyToOne(() => RoleOrmEntity)
   @JoinColumn({ name: 'roleId' })
-  role!: RoleOrmEntity;
+  role?: RoleOrmEntity;
 
   @CreateDateColumn({ name: 'createdAt', type: 'datetime', nullable: false })
   createdAt!: Date;

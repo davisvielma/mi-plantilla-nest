@@ -9,7 +9,6 @@ export class CreateUsersTable1700000002000 implements MigrationInterface {
                 email VARCHAR(255) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
                 roleId CHAR(36) NOT NULL,
-                isActive BOOLEAN DEFAULT TRUE,
                 createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 updatedAt DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
                 deletedAt DATETIME DEFAULT NULL,
