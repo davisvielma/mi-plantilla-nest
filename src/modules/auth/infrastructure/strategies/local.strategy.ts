@@ -6,7 +6,7 @@ import { USER_REPOSITORY } from '@/modules/users/domain/repositories/user.reposi
 import type { IUserRepository } from '@/modules/users/domain/repositories/user.repository.interface';
 import { MESSAGES } from '@/modules/shared/constants/messages.constant';
 import { ROLES } from '@/modules/shared/constants/roles.constant';
-import { comparePasswords } from '@/modules/shared';
+import { comparePasswords, JwtPayload } from '@/modules/shared';
 
 /**
  * ★ Estrategia Local
@@ -32,7 +32,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    * Este método se ejecuta al intentar autenticar.
    * Retorna el usuario si las credenciales son válidas.
    */
-  async validate(email: string, password: string): Promise<any> {
+  async validate(email: string, password: string): Promise<JwtPayload> {
     // Buscar usuario por email
     const user = await this.userRepository.findByEmail(email);
 
@@ -54,7 +54,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       sub: user.getId(),
       email: user.getEmail(),
       fullName: user.getFullName(),
-      role: user.getRole()?.name || ROLES.USER,
+      role: { id: user.getRoleId(), name: user.getRole()?.name || ROLES.USER },
     };
   }
 }

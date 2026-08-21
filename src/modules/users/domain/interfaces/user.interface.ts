@@ -25,6 +25,7 @@ export interface IUser {
 export interface ICreateUser {
   email: string;
   fullName: string;
+  password: string;
 }
 
 /**

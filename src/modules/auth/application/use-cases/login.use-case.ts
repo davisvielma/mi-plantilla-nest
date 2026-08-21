@@ -47,7 +47,8 @@ export class LoginUseCase {
     const payload: JwtPayload = {
       sub: user.getId(),
       email: user.getEmail(),
-      role: user.getRole()?.name || ROLES.USER,
+      fullName: user.getFullName(),
+      role: { id: user.getRoleId(), name: user.getRole()?.name || ROLES.USER },
     };
 
     const accessToken = this.jwtService.sign(payload, {
@@ -64,7 +65,10 @@ export class LoginUseCase {
         id: user.getId(),
         email: user.getEmail(),
         fullName: user.getFullName(),
-        role: user.getRole()?.name || ROLES.USER,
+        role: {
+          id: user.getRoleId(),
+          name: user.getRole()?.name || ROLES.USER,
+        },
       },
     };
   }

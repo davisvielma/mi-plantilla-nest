@@ -11,6 +11,7 @@ import { UserEntity } from '../../domain/entities/user.entity';
 
 import { MESSAGES } from '@/modules/shared/constants/messages.constant';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { hashPassword } from '@/modules/shared';
 
 /**
  * ★ Caso de Uso: Actualizar Usuario
@@ -54,10 +55,15 @@ export class UpdateUserUseCase {
       }
     }
 
+    const hashedPassword = dto.password
+      ? await hashPassword(dto.password)
+      : user.getPassword();
+
     // Actualizar entidad de dominio
     user.update({
       email: dto.email || user.getEmail(),
       fullName: dto.fullName || user.getFullName(),
+      password: hashedPassword,
     });
 
     // Guardar en repositorio

@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { Roles } from '@/modules/shared/decorators/roles.decorator';
 import { CurrentUser } from '@/modules/shared/decorators/current-user.decorator';
-import { ValidRoles } from '@/modules/shared/interfaces';
+import { type JwtPayload, ValidRoles } from '@/modules/shared/interfaces';
 import {
   CreateUserDto,
   UpdateUserDto,
@@ -67,11 +67,8 @@ export class UsersController {
   })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
   @ApiResponse({ status: 409, description: 'El email ya está registrado' })
-  async create(
-    @Body() dto: CreateUserDto,
-    @CurrentUser() user: { roleId: string },
-  ): Promise<UserResponseDto> {
-    const response = await this.createUserUseCase.execute(dto, user.roleId);
+  async create(@Body() dto: CreateUserDto): Promise<UserResponseDto> {
+    const response = await this.createUserUseCase.execute(dto);
 
     return {
       id: response.getId(),
@@ -151,7 +148,7 @@ export class UsersController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateUserDto,
-    @CurrentUser() user: { sub: string },
+    @CurrentUser() user: JwtPayload,
   ): Promise<UserResponseDto> {
     const response = await this.updateUserUseCase.execute(id, dto, user.sub);
 

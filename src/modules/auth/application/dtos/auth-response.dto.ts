@@ -24,13 +24,19 @@ export class AuthResponseDto {
       id: 'uuid-del-usuario',
       email: 'usuario@ejemplo.com',
       fullName: 'Juan Pérez',
-      role: 'user',
+      role: {
+        id: 'uuid-del-rol',
+        name: 'user',
+      },
     },
   })
   user!: {
     id: string;
     email: string;
     fullName: string;
-    role: string;
+    role: {
+      id: string;
+      name: string;
+    };
   };
 }

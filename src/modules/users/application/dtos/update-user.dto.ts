@@ -37,4 +37,14 @@ export class UpdateUserDto {
     message: 'El nombre completo no puede exceder los 255 caracteres',
   })
   fullName?: string;
+
+  @ApiPropertyOptional({
+    description: 'Contraseña del usuario (mínimo 8 caracteres)',
+    example: 'MiContraseña123',
+    minLength: 8,
+  })
+  @IsOptional()
+  @IsString()
+  @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
+  password?: string;
 }

@@ -39,7 +39,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * Este método se ejecuta después de verificar la firma del token.
    * Retorna el usuario que se adjuntará al request.
    */
-  async validate(payload: JwtPayload, ...args: any[]): Promise<any> {
+  async validate(payload: JwtPayload, ...args: any[]): Promise<JwtPayload> {
     // Obtener el token raw del request
     const request = args[0];
     const authHeader = request?.headers?.authorization;
@@ -70,7 +70,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       sub: user.getId(),
       email: user.getEmail(),
       fullName: user.getFullName(),
-      role: user.getRole()?.name || ROLES.USER,
+      role: { id: user.getRoleId(), name: user.getRole()?.name || ROLES.USER },
     };
   }
 }

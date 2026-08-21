@@ -9,6 +9,9 @@ import type { IUserRepository } from '../../domain/repositories/user.repository.
 import { UserEntity } from '../../domain/entities/user.entity';
 import { MESSAGES } from '@/modules/shared/constants/messages.constant';
 import { UpdateUserRoleDto } from '../dtos/update-user-role.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { RoleOrmEntity } from '../../infrastructure/persistence/entities';
+import { Repository } from 'typeorm';
 
 /**
  * ★ Caso de Uso: Actualizar Rol de Usuario
@@ -20,6 +23,8 @@ export class UpdateUserRoleUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
+    @InjectRepository(RoleOrmEntity)
+    private readonly roleRepository: Repository<RoleOrmEntity>,
   ) {}
 
   /**
@@ -30,6 +35,14 @@ export class UpdateUserRoleUseCase {
     const user = await this.userRepository.findById(id);
     if (!user) {
       throw new NotFoundException(MESSAGES.USER_NOT_FOUND);
+    }
+
+    const role = await this.roleRepository.findOne({
+      where: { id: dto.roleId },
+    });
+
+    if (!role) {
+      throw new InternalServerErrorException(MESSAGES.ROLE_NOT_FOUND);
     }
 
     // Actualizar rol

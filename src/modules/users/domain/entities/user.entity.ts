@@ -126,10 +126,11 @@ export class UserEntity extends Entity<IUser> {
    * ★ Actualiza los datos del usuario (sin rol)
    */
   update(updateData: ICreateUser): void {
-    const { email, fullName } = updateData;
+    const { email, fullName, password } = updateData;
 
     this.props.fullName = fullName;
     this.props.email = email;
+    this.props.password = password;
 
     this.props.updatedAt = new Date();
 

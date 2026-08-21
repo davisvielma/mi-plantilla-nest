@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
+import { JwtPayload } from '../interfaces';
 
 /**
  * ★ Guard para verificar que el usuario tenga el rol requerido
@@ -31,7 +32,7 @@ export class RolesGuard implements CanActivate {
 
     // ★ Obtener usuario del request
     const request = context.switchToHttp().getRequest();
-    const user = request.user as { role?: { name?: string } } | undefined;
+    const user = request.user as JwtPayload;
 
     if (!user) {
       throw new ForbiddenException('Usuario no autenticado');

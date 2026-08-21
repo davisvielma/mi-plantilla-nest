@@ -1,5 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  MaxLength,
+  IsUUID,
+  IsNotEmpty,
+} from 'class-validator';
 
 /**
  * ★ DTO para Crear Usuario
@@ -37,4 +44,12 @@ export class CreateUserDto {
     message: 'El nombre completo no puede exceder los 255 caracteres',
   })
   fullName!: string;
+
+  @ApiPropertyOptional({
+    description: 'ID del rol',
+    example: 'uuid-del-rol',
+  })
+  @IsNotEmpty({ message: 'El ID del rol es requerido' })
+  @IsUUID('4', { message: 'El formato del ID del rol es inválido' })
+  roleId!: string;
 }

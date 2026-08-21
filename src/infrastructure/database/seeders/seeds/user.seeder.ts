@@ -51,9 +51,9 @@ export class UsersSeeder implements Seeder {
     // ★ Crear usuario admin
     await userRepo.save({
       id: uuid(),
-      email: adminEmail,
+      email: adminEmail.toLocaleLowerCase(),
       password: hashedPassword,
-      fullName: 'Fortlexus Admin',
+      fullName: 'Fortlexus Admin'.toLocaleLowerCase(),
       roleId: adminRole.id,
     });
 

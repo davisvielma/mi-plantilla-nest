@@ -100,7 +100,10 @@ export class RefreshTokenUseCase {
         id: user.getId(),
         email: user.getEmail(),
         fullName: user.getFullName(),
-        role: user.getRole()?.name || ROLES.USER,
+        role: {
+          id: user.getRoleId(),
+          name: user.getRole()?.name || ROLES.USER,
+        },
       },
     };
   }
