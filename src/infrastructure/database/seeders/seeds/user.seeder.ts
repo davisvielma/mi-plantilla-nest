@@ -1,11 +1,11 @@
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
-import * as bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import {
   RoleOrmEntity,
   UserOrmEntity,
-} from '@/modules/users/infrastructure/persistence';
+} from '@/modules/users/infrastructure/persistence/entities';
+import { hashPassword } from '@/modules/shared';
 
 /**
  * ★ Seeder para crear el usuario administrador
@@ -46,14 +46,14 @@ export class UsersSeeder implements Seeder {
     }
 
     // ★ Hashear contraseña
-    const hashedPassword = await bcrypt.hash(adminPassword, 10);
+    const hashedPassword = await hashPassword(adminPassword);
 
     // ★ Crear usuario admin
     await userRepo.save({
       id: uuid(),
       email: adminEmail,
       password: hashedPassword,
-      name: 'Fortlexus Admin',
+      fullName: 'Fortlexus Admin',
       roleId: adminRole.id,
     });
 

@@ -9,7 +9,7 @@ export interface IUserRepository {
   /**
    * ★ Guarda un usuario (crea o actualiza)
    */
-  save(user: UserEntity): Promise<UserEntity>;
+  save(user: UserEntity): Promise<UserEntity | null>;
 
   /**
    * ★ Busca un usuario por su ID
@@ -27,9 +27,9 @@ export interface IUserRepository {
   findAll(): Promise<UserEntity[]>;
 
   /**
-   * ★ Elimina un usuario (hard delete)
+   * ★ Elimina un usuario (soft delete)
    */
-  delete(id: string): Promise<void>;
+  softDelete(id: string): Promise<void>;
 
   /**
    * ★ Verifica si existe un usuario con un email

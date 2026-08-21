@@ -1,4 +1,4 @@
-import { RoleOrmEntity } from '@/modules/users/infrastructure/persistence';
+import { RoleOrmEntity } from '@/modules/users/infrastructure/persistence/entities';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
 import { v4 as uuid } from 'uuid';

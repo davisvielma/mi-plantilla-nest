@@ -1,22 +1,22 @@
 import { ROLES } from '@/modules/shared/constants/roles.constant';
 import { Entity } from '@/modules/shared/domain/base.entity';
+import { IRole } from '../interfaces/role.interface';
 
-export interface IRole {
-  id: string;
-  name: string;
-  createdAt: Date;
-}
-
+/**
+ * ★ Entidad Role (Dominio)
+ *
+ * Representa un rol en el sistema con sus reglas de negocio.
+ */
 export class RoleEntity extends Entity<IRole> {
   private constructor(role: IRole) {
     super(role.id, role);
   }
 
-  get getName(): string {
+  getName(): string {
     return this.props.name;
   }
 
-  get getCreatedAt(): Date {
+  getCreatedAt(): Date {
     return this.props.createdAt;
   }
 

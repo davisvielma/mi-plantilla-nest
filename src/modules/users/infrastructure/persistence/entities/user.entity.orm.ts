@@ -6,6 +6,8 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 import { RoleOrmEntity } from '.';
 
@@ -15,16 +17,13 @@ export class UserOrmEntity {
   id!: string;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
-  name!: string;
+  fullName!: string;
 
   @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   email!: string;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   password!: string;
-
-  @Column({ name: 'isActive', type: 'boolean', default: true })
-  isActive!: boolean;
 
   @Column({
     type: 'char',
@@ -45,4 +44,16 @@ export class UserOrmEntity {
 
   @Column({ name: 'deletedAt', type: 'datetime', nullable: true })
   deletedAt?: Date;
+
+  @BeforeInsert()
+  checkFieldsBeforeInsert() {
+    this.email = this.email.toLowerCase().trim();
+    this.fullName = this.fullName.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkFieldsBeforeUpdate() {
+    this.email = this.email.toLowerCase().trim();
+    this.fullName = this.fullName.toLowerCase().trim();
+  }
 }

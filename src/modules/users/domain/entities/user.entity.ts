@@ -1,40 +1,24 @@
 import { Entity } from '../../../shared/domain/base.entity';
-import { IRole } from './role.entity';
 import { ValidationException } from '../../../shared/exceptions/exceptions/validation.exception';
 import { BusinessException } from '@/modules/shared/exceptions/exceptions';
 import { v4 as uuid } from 'uuid';
+import {
+  IUser,
+  ICreateUser,
+  ICreateUserEntity,
+} from '../interfaces/user.interface';
+import { IRole } from '../interfaces';
 
-/**
- * ★ Propiedades del User
- */
-export interface IUser {
-  id: string;
-  email: string;
-  password: string;
-  name: string;
-  roleId: string;
-  createdAt: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
-
-  role?: IRole;
-}
-
-export interface ICreateUser {
-  email: string;
-  password: string;
-  name: string;
-}
-
-interface ICreateUserEntity extends ICreateUser {
-  roleId: string;
-}
+export type { IUser, ICreateUser } from '../interfaces/user.interface';
 
 /**
  * ★ Entidad User (Dominio)
+ *
+ * Representa un usuario en el sistema con sus reglas de negocio.
+ * Única forma de crear un usuario es a través del factory method create().
  */
 export class UserEntity extends Entity<IUser> {
-  private constructor(user: IUser) {
+  constructor(user: IUser) {
     super(user.id, user);
     this.validate();
   }
@@ -58,8 +42,11 @@ export class UserEntity extends Entity<IUser> {
       );
     }
 
-    if (!this.props.name || this.props.name.trim().length === 0) {
-      throw new ValidationException('El nombre es requerido', 'NAME_REQUIRED');
+    if (!this.props.fullName || this.props.fullName.trim().length === 0) {
+      throw new ValidationException(
+        'El nombre completo es requerido',
+        'NAME_REQUIRED',
+      );
     }
 
     if (!this.props.roleId || this.props.roleId.trim().length === 0) {
@@ -87,67 +74,84 @@ export class UserEntity extends Entity<IUser> {
   }
 
   private validateName(): void {
-    if (this.props.name.length < 3) {
+    if (this.props.fullName.length < 3) {
       throw new ValidationException(
-        'El nombre debe tener al menos 3 caracteres',
+        'El nombre completo debe tener al menos 3 caracteres',
         'INVALID_NAME',
       );
     }
 
-    if (this.props.name.length > 255) {
+    if (this.props.fullName.length > 255) {
       throw new ValidationException(
-        'El nombre no puede exceder los 255 caracteres',
+        'El nombre completo no puede exceder los 255 caracteres',
         'NAME_TOO_LONG',
       );
     }
   }
 
   // ★ Getters
-  get getName(): string {
-    return this.props.name;
+  getFullName(): string {
+    return this.props.fullName;
   }
 
-  get getEmail(): string {
+  getEmail(): string {
     return this.props.email;
   }
 
-  get getPassword(): string {
+  getPassword(): string {
     return this.props.password;
   }
 
-  get getRoleId(): string {
+  getRoleId(): string {
     return this.props.roleId;
   }
 
-  get getRole(): IRole | undefined {
+  getRole(): Omit<IRole, 'createdAt'> | undefined {
     return this.props.role;
   }
 
-  get getCreatedAt(): Date {
+  getCreatedAt(): Date {
     return this.props.createdAt;
   }
 
-  get getUpdatedAt(): Date | undefined {
+  getUpdatedAt(): Date | undefined {
     return this.props.updatedAt;
   }
 
-  get getDeletedAt(): Date | undefined {
+  getDeletedAt(): Date | undefined {
     return this.props.deletedAt;
   }
 
+  /**
+   * ★ Actualiza los datos del usuario (sin rol)
+   */
   update(updateData: ICreateUser): void {
-    const { email, name, password } = updateData;
+    const { email, fullName } = updateData;
 
-    this.props.name = name;
+    this.props.fullName = fullName;
     this.props.email = email;
-    this.props.password = password;
 
     this.props.updatedAt = new Date();
 
     this.validate();
   }
 
-  delete(): void {
+  /**
+   * ★ Actualiza el rol del usuario (solo admin)
+   */
+  updateRole(roleId: string): void {
+    if (!roleId || roleId.trim().length === 0) {
+      throw new ValidationException('El rol es requerido', 'ROLE_ID_REQUIRED');
+    }
+
+    this.props.roleId = roleId;
+    this.props.updatedAt = new Date();
+  }
+
+  /**
+   * ★ Soft delete - marca el usuario como eliminado
+   */
+  softDelete(): void {
     if (this.isDeleted()) {
       throw new BusinessException(
         'El usuario ya está eliminado',
@@ -158,6 +162,9 @@ export class UserEntity extends Entity<IUser> {
     this.props.deletedAt = new Date();
   }
 
+  /**
+   * ★ Verifica si el usuario está eliminado
+   */
   isDeleted(): boolean {
     return !!this.props.deletedAt;
   }
@@ -168,8 +175,8 @@ export class UserEntity extends Entity<IUser> {
   static create(user: ICreateUserEntity): UserEntity {
     return new UserEntity({
       id: uuid(),
-      name: user.name.trim(),
-      email: user.email.trim(),
+      fullName: user.fullName.trim(),
+      email: user.email.trim().toLowerCase(),
       password: user.password,
       roleId: user.roleId.trim(),
       createdAt: new Date(),

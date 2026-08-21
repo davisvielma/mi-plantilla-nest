@@ -5,7 +5,8 @@ import { MainSeeder } from './seeders';
 import {
   RoleOrmEntity,
   UserOrmEntity,
-} from '@/modules/users/infrastructure/persistence';
+} from '@/modules/users/infrastructure/persistence/entities';
+import { TokenBlacklistOrmEntity } from '@/modules/auth/infrastructure/persistence/entities';
 import { config } from 'dotenv';
 
 config({ path: join(process.cwd(), '.env') });
@@ -20,7 +21,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   timezone: 'Z',
   dateStrings: ['DATE'],
 
-  entities: [UserOrmEntity, RoleOrmEntity],
+  entities: [UserOrmEntity, RoleOrmEntity, TokenBlacklistOrmEntity],
 
   migrations: [join(__dirname, 'migrations', '**', '*{.ts,.js}')],
   migrationsTableName: 'migrations',
