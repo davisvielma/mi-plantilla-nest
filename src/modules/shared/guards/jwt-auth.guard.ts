@@ -6,6 +6,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { MESSAGES } from '../constants/messages.constant';
 
 /**
  * Guard para proteger rutas con autenticación JWT
@@ -33,9 +34,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  handleRequest(err: any, user: any, info: any) {
+  handleRequest(err: any, user: any) {
     if (err || !user) {
-      throw err || new UnauthorizedException('No autorizado');
+      throw err || new UnauthorizedException(MESSAGES.UNAUTHORIZED);
     }
     return user;
   }

@@ -3,6 +3,7 @@ import {
   Injectable,
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -44,7 +45,7 @@ export class RegisterUseCase {
     });
 
     if (!role) {
-      throw new InternalServerErrorException(MESSAGES.ROLE_NOT_FOUND);
+      throw new NotFoundException(MESSAGES.ROLE_NOT_FOUND);
     }
 
     const hashedPassword = await hashPassword(dto.password);

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 /**
  * DTO para Actualizar Rol de Usuario
@@ -12,7 +12,7 @@ export class UpdateUserRoleDto {
     description: 'ID del nuevo rol',
     example: 'uuid-del-rol',
   })
-  @IsString()
-  @IsUUID('4', { message: 'El ID del rol es requerido' })
+  @IsNotEmpty({ message: 'El ID del rol es requerido' })
+  @IsUUID('4', { message: 'El formato del ID del rol es inválido' })
   roleId!: string;
 }

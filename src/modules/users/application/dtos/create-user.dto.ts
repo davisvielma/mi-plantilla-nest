@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsString,
@@ -26,7 +26,7 @@ export class CreateUserDto {
     example: 'MiContraseña123',
     minLength: 8,
   })
-  @IsString()
+  @IsString({ message: 'La contraseña debe ser una cadena de caracteres' })
   @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
   password!: string;
 
@@ -36,7 +36,9 @@ export class CreateUserDto {
     minLength: 3,
     maxLength: 255,
   })
-  @IsString()
+  @IsString({
+    message: 'El nombre completo debe ser una cadena de caracteres.',
+  })
   @MinLength(3, {
     message: 'El nombre completo debe tener al menos 3 caracteres',
   })
@@ -45,7 +47,7 @@ export class CreateUserDto {
   })
   fullName!: string;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'ID del rol',
     example: 'uuid-del-rol',
   })

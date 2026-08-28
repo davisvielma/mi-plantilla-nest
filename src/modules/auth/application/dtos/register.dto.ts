@@ -13,7 +13,9 @@ export class RegisterDto {
     minLength: 3,
     maxLength: 255,
   })
-  @IsString()
+  @IsString({
+    message: 'El nombre completo debe ser una cadena de caracteres.',
+  })
   @MinLength(3, {
     message: 'El nombre completo debe tener al menos 3 caracteres',
   })
@@ -34,7 +36,7 @@ export class RegisterDto {
     example: 'MiContraseña123',
     minLength: 8,
   })
-  @IsString()
+  @IsString({ message: 'La contraseña debe ser una cadena de caracteres' })
   @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
   password!: string;
 }

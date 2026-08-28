@@ -34,20 +34,17 @@ export class UpdateUserUseCase {
     dto: UpdateUserDto,
     currentUserId: string,
   ): Promise<UserEntity> {
-    // Verificar que el usuario existe
     const user = await this.userRepository.findById(id);
     if (!user) {
       throw new NotFoundException(MESSAGES.USER_NOT_FOUND);
     }
 
-    // Verificar que el usuario solo puede actualizar su propio perfil
     if (user.getId() !== currentUserId) {
       throw new ConflictException(
         'No tienes permiso para actualizar este usuario',
       );
     }
 
-    // Verificar si el email ya está registrado (si se está cambiando)
     if (dto.email && dto.email !== user.getEmail()) {
       const exists = await this.userRepository.existsByEmail(dto.email);
       if (exists) {
@@ -66,7 +63,6 @@ export class UpdateUserUseCase {
       password: hashedPassword,
     });
 
-    // Guardar en repositorio
     const updatedUser = await this.userRepository.save(user);
 
     if (!updatedUser) {

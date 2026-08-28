@@ -18,7 +18,7 @@ export class LoginDto {
     description: 'Contraseña del usuario',
     example: 'MiContraseña123',
   })
-  @IsString()
+  @IsString({ message: 'La contraseña debe ser una cadena de caracteres' })
   @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
   password!: string;
 }

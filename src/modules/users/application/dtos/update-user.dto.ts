@@ -29,7 +29,9 @@ export class UpdateUserDto {
     maxLength: 255,
   })
   @IsOptional()
-  @IsString()
+  @IsString({
+    message: 'El nombre completo debe ser una cadena de caracteres.',
+  })
   @MinLength(3, {
     message: 'El nombre completo debe tener al menos 3 caracteres',
   })
@@ -44,7 +46,7 @@ export class UpdateUserDto {
     minLength: 8,
   })
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'La contraseña debe ser una cadena de caracteres' })
   @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
   password?: string;
 }

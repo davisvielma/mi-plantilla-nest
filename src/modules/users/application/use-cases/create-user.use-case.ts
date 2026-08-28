@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
 import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
@@ -44,7 +45,7 @@ export class CreateUserUseCase {
     });
 
     if (!role) {
-      throw new InternalServerErrorException(MESSAGES.ROLE_NOT_FOUND);
+      throw new NotFoundException(MESSAGES.ROLE_NOT_FOUND);
     }
 
     const hashedPassword = await hashPassword(dto.password);
