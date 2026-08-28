@@ -1,13 +1,12 @@
 import { DomainException } from './domain.exception';
 
 /**
- * ★ Excepción para errores de lógica de negocio
+ * ★ Excepción para campos requeridos
  *
- * Esta excepción se usa en los casos de uso para errores que violan
- * reglas de negocio (ej: email ya existe, stock insuficiente).
+ * Esta excepción se lanza cuando un campo obligatorio no fue proporcionado.
  *
  * Ejemplo de uso:
- *   throw new BusinessException('El email ya está registrado', 'EMAIL_ALREADY_EXISTS');
+ *   throw new RequiredFieldException('El nombre es obligatorio');
  */
 export class RequiredFieldException extends DomainException {
   constructor(message: string) {

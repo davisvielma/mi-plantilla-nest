@@ -5,7 +5,7 @@
  * (entidades, value objects, reglas de negocio).
  *
  * Ejemplo de uso:
- *   throw new DomainException('El email ya está registrado');
+ *   throw new DomainException('Violación de regla de dominio');
  */
 export class DomainException extends Error {
   constructor(public readonly message: string) {

@@ -1,13 +1,13 @@
 import { DomainException } from './domain.exception';
 
 /**
- * ★ Excepción para errores de validación
+ * ★ Excepción para formato inválido
  *
- * Esta excepción se usa cuando los datos de entrada no cumplen
- * con las validaciones (ej: email inválido, campo requerido).
+ * Esta excepción se lanza cuando un campo no tiene el formato esperado
+ * (ej: email inválido, UUID incorrecto, fecha con formato erróneo).
  *
  * Ejemplo de uso:
- *   throw new ValidationException('El email no tiene un formato válido');
+ *   throw new InvalidFormatException('El email no tiene un formato válido');
  */
 export class InvalidFormatException extends DomainException {
   constructor(message: string) {

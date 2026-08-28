@@ -1,13 +1,13 @@
 import { DomainException } from './domain.exception';
 
 /**
- * ★ Excepción para errores de lógica de negocio
+ * ★ Excepción para entidades eliminadas
  *
- * Esta excepción se usa en los casos de uso para errores que violan
- * reglas de negocio (ej: email ya existe, stock insuficiente).
+ * Esta excepción se lanza cuando se intenta acceder o modificar
+ * una entidad que ha sido eliminada lógicamente.
  *
  * Ejemplo de uso:
- *   throw new BusinessException('El email ya está registrado', 'EMAIL_ALREADY_EXISTS');
+ *   throw new EntityDeletedException('El usuario ha sido eliminado');
  */
 export class EntityDeletedException extends DomainException {
   constructor(message: string) {
