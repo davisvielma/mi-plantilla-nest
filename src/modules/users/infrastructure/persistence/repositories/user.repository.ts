@@ -83,7 +83,7 @@ export class UserRepository implements IUserRepository {
    */
   async existsByEmail(email: string): Promise<boolean> {
     const count = await this.userRepository.count({
-      where: { email: email.toLowerCase(), deletedAt: IsNull() },
+      where: { email: email.toLowerCase() },
     });
     return count > 0;
   }
