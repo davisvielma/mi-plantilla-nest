@@ -9,9 +9,9 @@ import { DomainException } from './domain.exception';
  * Ejemplo de uso:
  *   throw new ValidationException('El email no tiene un formato válido');
  */
-export class ValidationException extends DomainException {
-  constructor(message: string, code?: string) {
-    super(message, code || 'VALIDATION_ERROR');
-    this.name = 'ValidationException';
+export class InvalidFormatException extends DomainException {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidFormatException';
   }
 }

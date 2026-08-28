@@ -9,9 +9,9 @@ import { DomainException } from './domain.exception';
  * Ejemplo de uso:
  *   throw new BusinessException('El email ya está registrado', 'EMAIL_ALREADY_EXISTS');
  */
-export class BusinessException extends DomainException {
-  constructor(message: string, code?: string) {
-    super(message, code || 'BUSINESS_ERROR');
-    this.name = 'BusinessException';
+export class EntityDeletedException extends DomainException {
+  constructor(message: string) {
+    super(message);
+    this.name = 'EntityDeletedException';
   }
 }

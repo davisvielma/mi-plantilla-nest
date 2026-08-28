@@ -8,9 +8,9 @@ import { DomainException } from './domain.exception';
  * Ejemplo de uso:
  *   throw new NotFoundException('Usuario no encontrado', 'USER_NOT_FOUND');
  */
-export class NotFoundException extends DomainException {
-  constructor(message: string, code?: string) {
-    super(message, code || 'NOT_FOUND');
-    this.name = 'NotFoundException';
+export class EntityNotFoundException extends DomainException {
+  constructor(message: string) {
+    super(message);
+    this.name = 'EntityNotFoundException';
   }
 }

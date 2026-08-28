@@ -1,4 +1,7 @@
-import { ValidationException } from '@/modules/shared/exceptions/exceptions';
+import {
+  InvalidFormatException,
+  RequiredFieldException,
+} from '@/modules/shared';
 
 /**
  * ★ Value Object: Password
@@ -24,16 +27,12 @@ export class Password {
    */
   static create(plainPassword: string): Password {
     if (!plainPassword || plainPassword.trim().length === 0) {
-      throw new ValidationException(
-        'La contraseña es requerida',
-        'PASSWORD_REQUIRED',
-      );
+      throw new RequiredFieldException('La contraseña es requerida');
     }
 
     if (plainPassword.length < 8) {
-      throw new ValidationException(
+      throw new InvalidFormatException(
         'La contraseña debe tener al menos 8 caracteres',
-        'PASSWORD_TOO_SHORT',
       );
     }
 

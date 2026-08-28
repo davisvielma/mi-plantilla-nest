@@ -90,7 +90,7 @@ export class RefreshTokenUseCase {
       expiresIn: (process.env.JWT_EXPIRES_IN || '1d') as StringValue,
     });
     const refreshToken = this.jwtService.sign(newPayload, {
-      expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN || '4d') as StringValue,
+      expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN || '5d') as StringValue,
     });
 
     return {

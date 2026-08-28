@@ -1,4 +1,7 @@
-import { ValidationException } from '@/modules/shared/exceptions/exceptions';
+import {
+  InvalidFormatException,
+  RequiredFieldException,
+} from '@/modules/shared';
 
 /**
  * ★ Value Object: Email
@@ -25,15 +28,12 @@ export class Email {
    */
   static create(email: string): Email {
     if (!email || email.trim().length === 0) {
-      throw new ValidationException('El email es requerido', 'EMAIL_REQUIRED');
+      throw new RequiredFieldException('El email es requerido');
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      throw new ValidationException(
-        'El formato del email es inválido',
-        'INVALID_EMAIL',
-      );
+      throw new InvalidFormatException('El formato del email es inválido');
     }
 
     return new Email(email.trim());

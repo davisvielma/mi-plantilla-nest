@@ -5,14 +5,9 @@ import {
   HttpException,
   HttpStatus,
   Logger,
-  NotFoundException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import {
-  DomainException,
-  BusinessException,
-  ValidationException,
-} from '../exceptions';
+import { DomainException } from '../exceptions';
 
 /**
  * ★ Filtro global para todas las excepciones HTTP
@@ -46,24 +41,24 @@ export class HttpExceptionFilter implements ExceptionFilter {
     } else if (exception instanceof DomainException) {
       status = this.mapDomainExceptionToHttpStatus(exception);
       message = exception.message;
-      errorCode = exception.code || exception.constructor.name;
+      errorCode = exception.name || exception.constructor.name;
     } else if (exception instanceof Error) {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
-      message = exception.message || 'Internal server error';
+      message = exception.message || 'Error Interno del Servidor';
       errorCode = 'InternalServerError';
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
-      message = 'Internal server error';
+      message = 'Error Interno del Servidor';
       errorCode = 'UnknownError';
     }
 
     const errorResponse = {
       statusCode: status,
       errorCode,
-      message,
       timestamp: new Date().toISOString(),
       path: request.url,
       method: request.method,
+      message,
     };
 
     this.logger.error(
@@ -75,15 +70,41 @@ export class HttpExceptionFilter implements ExceptionFilter {
   }
 
   private mapDomainExceptionToHttpStatus(exception: DomainException): number {
-    if (exception instanceof BusinessException) {
-      return HttpStatus.CONFLICT; // 409
+    const exceptionName = exception.name || exception.constructor.name;
+
+    // Not found exceptions -> 404
+    if (exceptionName.includes('NotFound')) {
+      return HttpStatus.NOT_FOUND;
     }
-    if (exception instanceof ValidationException) {
-      return HttpStatus.BAD_REQUEST; // 400
+
+    // Access denied exceptions -> 403
+    if (
+      exceptionName.includes('AccessDenied') ||
+      exceptionName.includes('Forbidden') ||
+      exceptionName.includes('Unauthorized')
+    ) {
+      return HttpStatus.FORBIDDEN;
     }
-    if (exception instanceof NotFoundException) {
-      return HttpStatus.NOT_FOUND; // 404
+
+    // Already exists / conflict / constraint exceptions -> 409
+    if (
+      exceptionName.includes('Duplicate') ||
+      exceptionName.includes('Conflict') ||
+      exceptionName.includes('Deleted')
+    ) {
+      return HttpStatus.CONFLICT;
     }
-    return HttpStatus.INTERNAL_SERVER_ERROR; // 500
+
+    // Invalid data / validation exceptions -> 400
+    if (
+      exceptionName.includes('Invalid') ||
+      exceptionName.includes('RequiredField') ||
+      exceptionName.includes('Validation')
+    ) {
+      return HttpStatus.BAD_REQUEST;
+    }
+
+    // Default for domain exceptions -> 400 (client error)
+    return HttpStatus.BAD_REQUEST;
   }
 }

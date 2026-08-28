@@ -1,6 +1,4 @@
 import { Entity } from '../../../shared/domain/base.entity';
-import { ValidationException } from '../../../shared/exceptions/exceptions/validation.exception';
-import { BusinessException } from '@/modules/shared/exceptions/exceptions';
 import { v4 as uuid } from 'uuid';
 import {
   IUser,
@@ -8,6 +6,11 @@ import {
   ICreateUserEntity,
 } from '../interfaces/user.interface';
 import { IRole } from '../interfaces';
+import {
+  EntityDeletedException,
+  InvalidFormatException,
+  RequiredFieldException,
+} from '@/modules/shared';
 
 export type { IUser, ICreateUser } from '../interfaces/user.interface';
 
@@ -32,59 +35,47 @@ export class UserEntity extends Entity<IUser> {
 
   private validateRequiredFields(): void {
     if (!this.props.email || this.props.email.trim().length === 0) {
-      throw new ValidationException('El email es requerido', 'EMAIL_REQUIRED');
+      throw new RequiredFieldException('El email es requerido');
     }
 
     if (!this.props.password || this.props.password.trim().length === 0) {
-      throw new ValidationException(
-        'La contraseña es requerida',
-        'PASSWORD_REQUIRED',
-      );
+      throw new RequiredFieldException('La contraseña es requerida');
     }
 
     if (!this.props.fullName || this.props.fullName.trim().length === 0) {
-      throw new ValidationException(
-        'El nombre completo es requerido',
-        'NAME_REQUIRED',
-      );
+      throw new RequiredFieldException('El nombre completo es requerido');
     }
 
     if (!this.props.roleId || this.props.roleId.trim().length === 0) {
-      throw new ValidationException('El rol es requerido', 'ROLE_ID_REQUIRED');
+      throw new RequiredFieldException('El rol es requerido');
     }
   }
 
   private validateEmail(): void {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.props.email)) {
-      throw new ValidationException(
-        'El formato del email es inválido',
-        'INVALID_EMAIL',
-      );
+      throw new InvalidFormatException('El formato del email es inválido');
     }
   }
 
   private validatePassword(): void {
     if (this.props.password.length < 8) {
-      throw new ValidationException(
+      throw new InvalidFormatException(
         'La contraseña debe tener al menos 8 caracteres',
-        'PASSWORD_TOO_SHORT',
       );
     }
   }
 
   private validateName(): void {
     if (this.props.fullName.length < 3) {
-      throw new ValidationException(
+      throw new InvalidFormatException(
         'El nombre completo debe tener al menos 3 caracteres',
-        'INVALID_NAME',
       );
     }
 
     if (this.props.fullName.length > 255) {
-      throw new ValidationException(
+      throw new InvalidFormatException(
         'El nombre completo no puede exceder los 255 caracteres',
-        'NAME_TOO_LONG',
       );
     }
   }
@@ -141,12 +132,10 @@ export class UserEntity extends Entity<IUser> {
    * ★ Actualiza el rol del usuario (solo admin)
    */
   updateRole(roleId: string): void {
-    if (!roleId || roleId.trim().length === 0) {
-      throw new ValidationException('El rol es requerido', 'ROLE_ID_REQUIRED');
-    }
-
     this.props.roleId = roleId;
     this.props.updatedAt = new Date();
+
+    this.validate();
   }
 
   /**
@@ -154,10 +143,7 @@ export class UserEntity extends Entity<IUser> {
    */
   softDelete(): void {
     if (this.isDeleted()) {
-      throw new BusinessException(
-        'El usuario ya está eliminado',
-        'DELETED_CONFLICT',
-      );
+      throw new EntityDeletedException('El usuario ya está eliminado');
     }
 
     this.props.deletedAt = new Date();
