@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { Request, Response } from 'express';
 
 /**
- * ★ Interfaz para la estructura de respuesta uniforme
+ * Interfaz para la estructura de respuesta uniforme
  */
 export interface ApiResponse<T> {
   data: T;
@@ -21,7 +21,7 @@ export interface ApiResponse<T> {
 }
 
 /**
- * ★ Interceptor para estandarizar todas las respuestas exitosas
+ * Interceptor para estandarizar todas las respuestas exitosas
  */
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<

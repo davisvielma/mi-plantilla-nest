@@ -15,7 +15,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 /**
- * ★ Caso de Uso: Crear Usuario
+ * Caso de Uso: Crear Usuario
  *
  * Crea un nuevo usuario en el sistema.
  * Valida que el email no esté registrado y hashea la contraseña.
@@ -30,7 +30,7 @@ export class CreateUserUseCase {
   ) {}
 
   /**
-   * ★ Ejecuta el caso de uso
+   * Ejecuta el caso de uso
    */
   async execute(dto: CreateUserDto): Promise<UserEntity> {
     // Verificar si el email ya está registrado

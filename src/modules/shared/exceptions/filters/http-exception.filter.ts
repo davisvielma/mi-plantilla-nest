@@ -10,7 +10,7 @@ import { Response } from 'express';
 import { DomainException } from '../exceptions';
 
 /**
- * ★ Filtro global para todas las excepciones HTTP
+ * Filtro global para todas las excepciones HTTP
  *
  * Captura TODAS las excepciones (Nest, dominio, y no manejadas)
  * y las convierte en respuestas HTTP estructuradas.

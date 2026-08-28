@@ -2,14 +2,14 @@ import { UserEntity } from './../../../domain/entities';
 import { UserOrmEntity } from './../entities';
 
 /**
- * ★ Mapper: Dominio ↔ Persistencia
+ * Mapper: Dominio ↔ Persistencia
  *
  * Convierte entre entidades de dominio y entidades ORM.
  * Métodos estáticos para facilitar el uso sin instanciación.
  */
 export class UserMapper {
   /**
-   * ★ Convierte una entidad ORM a entidad de dominio
+   * Convierte una entidad ORM a entidad de dominio
    */
   static toDomain(ormEntity: UserOrmEntity): UserEntity {
     return new UserEntity({
@@ -31,7 +31,7 @@ export class UserMapper {
   }
 
   /**
-   * ★ Convierte una entidad de dominio a entidad ORM
+   * Convierte una entidad de dominio a entidad ORM
    */
   static toPersistence(domainEntity: UserEntity): UserOrmEntity {
     const entity = new UserOrmEntity();

@@ -14,7 +14,7 @@ import { UpdateUserDto } from '../dtos/update-user.dto';
 import { hashPassword } from '@/modules/shared';
 
 /**
- * ★ Caso de Uso: Actualizar Usuario
+ * Caso de Uso: Actualizar Usuario
  *
  * Actualiza los datos de un usuario (name, email, password).
  * No permite cambiar el rol - para eso está UpdateUserRoleUseCase.
@@ -27,7 +27,7 @@ export class UpdateUserUseCase {
   ) {}
 
   /**
-   * ★ Ejecuta el caso de uso
+   * Ejecuta el caso de uso
    */
   async execute(
     id: string,

@@ -20,7 +20,7 @@ import { TokenBlacklistOrmEntity } from '../persistence/entities';
 import type { StringValue } from 'ms';
 
 /**
- * ★ Módulo de Autenticación
+ * Módulo de Autenticación
  *
  * Configura la inyección de dependencias para el módulo de autenticación.
  * Incluye: strategies, use cases, y controllers.

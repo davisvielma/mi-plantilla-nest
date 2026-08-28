@@ -6,7 +6,7 @@ import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { HttpExceptionFilter } from './exceptions/filters/http-exception.filter';
 
 /**
- * ★ Módulo Compartido (Shared)
+ * Módulo Compartido (Shared)
  *
  * Registra todos los componentes transversales como providers globales:
  * - Guards de autenticación y autorización

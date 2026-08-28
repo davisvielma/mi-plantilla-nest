@@ -10,7 +10,7 @@ import { ROLES } from '@/modules/shared/constants/roles.constant';
 import type { StringValue } from 'ms';
 
 /**
- * ★ Caso de Uso: Login
+ * Caso de Uso: Login
  *
  * Autentica un usuario con email y contraseña.
  * Retorna access token y refresh token.
@@ -23,11 +23,7 @@ export class LoginUseCase {
     private readonly jwtService: JwtService,
   ) {}
 
-  /**
-   * ★ Ejecuta el caso de uso
-   */
   async execute(dto: LoginDto): Promise<AuthResponseDto> {
-    // Buscar usuario por email
     const user = await this.userRepository.findByEmail(dto.email);
 
     if (!user) {
@@ -43,7 +39,6 @@ export class LoginUseCase {
       throw new UnauthorizedException(MESSAGES.INVALID_CREDENTIALS);
     }
 
-    // Generar tokens
     const payload: JwtPayload = {
       sub: user.getId(),
       email: user.getEmail(),

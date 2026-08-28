@@ -1,23 +1,23 @@
 /**
- * ★ Constantes para mensajes de error y respuesta
+ * Constantes para mensajes de error y respuesta
  *
  * Centraliza todos los mensajes para facilitar cambios y mantener consistencia
  */
 export const MESSAGES = {
-  // ★ Errores comunes
+  // Errores comunes
   INTERNAL_ERROR: 'Error interno del servidor',
   NOT_FOUND: 'Recurso no encontrado',
   UNAUTHORIZED: 'No autorizado',
   FORBIDDEN: 'Acceso denegado',
 
-  // ★ Usuarios
+  // Usuarios
   USER_CREATED: 'Usuario creado exitosamente',
   USER_UPDATED: 'Usuario actualizado exitosamente',
   USER_DELETED: 'Usuario eliminado exitosamente',
   USER_NOT_FOUND: 'Usuario no encontrado',
   USER_ALREADY_EXISTS: 'El email ya está registrado',
 
-  // ★ Autenticación
+  // Autenticación
   LOGIN_SUCCESS: 'Inicio de sesión exitoso',
   LOGOUT_SUCCESS: 'Sesión cerrada exitosamente',
   INVALID_CREDENTIALS: 'Credenciales inválidas',
@@ -25,11 +25,11 @@ export const MESSAGES = {
   TOKEN_INVALID: 'Token inválido',
   REFRESH_TOKEN_SUCCESS: 'Token refrescado exitosamente',
 
-  // ★ Roles
+  // Roles
   ROLE_NOT_FOUND: 'Rol no encontrado',
   INVALID_ROLE: 'Rol inválido',
 
-  // ★ Validaciones
+  // Validaciones
   INVALID_EMAIL: 'El formato del email es inválido',
   PASSWORD_TOO_SHORT: 'La contraseña debe tener al menos 8 caracteres',
   NAME_TOO_SHORT: 'El nombre debe tener al menos 3 caracteres',

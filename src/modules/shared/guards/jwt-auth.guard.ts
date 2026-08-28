@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
 /**
- * ★ Guard para proteger rutas con autenticación JWT
+ * Guard para proteger rutas con autenticación JWT
  *
  * Verifica que el token JWT sea válido y que el usuario exista.
  * Las rutas marcadas con @Public() no requieren autenticación.
@@ -20,7 +20,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   canActivate(context: ExecutionContext) {
-    // ★ Verificar si la ruta es pública
+    // Verificar si la ruta es pública
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),

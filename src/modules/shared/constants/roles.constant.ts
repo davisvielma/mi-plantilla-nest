@@ -1,5 +1,5 @@
 /**
- * ★ Constantes para los roles del sistema
+ * Constantes para los roles del sistema
  *
  * Centraliza los nombres de los roles para evitar typos
  */

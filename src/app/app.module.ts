@@ -8,7 +8,7 @@ import { UsersModule } from '@/modules/users/infrastructure/modules/users.module
 import { AuthModule } from '@/modules/auth/infrastructure/modules/auth.module';
 
 /**
- * ★ Módulo Principal de la Aplicación
+ * Módulo Principal de la Aplicación
  *
  * Configura todos los módulos globales y conecta la aplicación.
  */

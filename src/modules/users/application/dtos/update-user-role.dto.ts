@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsUUID } from 'class-validator';
 
 /**
- * ★ DTO para Actualizar Rol de Usuario
+ * DTO para Actualizar Rol de Usuario
  *
  * Define el campo necesario para cambiar el rol de un usuario.
  * Solo accesible por administradores.

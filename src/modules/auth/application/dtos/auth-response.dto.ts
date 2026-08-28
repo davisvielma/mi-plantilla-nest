@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
- * ★ DTO de Respuesta de Autenticación
+ * DTO de Respuesta de Autenticación
  *
  * Define la estructura de respuesta al autenticar un usuario.
  */

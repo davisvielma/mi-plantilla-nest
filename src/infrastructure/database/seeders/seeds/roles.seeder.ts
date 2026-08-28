@@ -4,7 +4,7 @@ import { Seeder } from 'typeorm-extension';
 import { v4 as uuid } from 'uuid';
 
 /**
- * ★ Seeder para crear roles base del sistema
+ * Seeder para crear roles base del sistema
  *
  * Crea los roles mínimos necesarios para que la aplicación funcione:
  * - admin: Administrador del sistema

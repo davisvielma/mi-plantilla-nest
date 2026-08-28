@@ -18,7 +18,7 @@ import { hashPassword, JwtPayload } from '@/modules/shared';
 import type { StringValue } from 'ms';
 
 /**
- * ★ Caso de Uso: Registro de Usuario
+ * Caso de Uso: Registro de Usuario
  *
  * Registra un nuevo usuario con rol por defecto (user).
  * Retorna access token y refresh token.
@@ -33,9 +33,6 @@ export class RegisterUseCase {
     private readonly jwtService: JwtService,
   ) {}
 
-  /**
-   * ★ Ejecuta el caso de uso
-   */
   async execute(dto: RegisterDto): Promise<AuthResponseDto> {
     const exists = await this.userRepository.existsByEmail(dto.email);
     if (exists) {

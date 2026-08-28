@@ -19,7 +19,7 @@ import {
 import type { StringValue } from 'ms';
 
 /**
- * ★ Caso de Uso: Refresh Token
+ * Caso de Uso: Refresh Token
  *
  * Refresca el access token usando un refresh token válido.
  * Implementa token rotation: el refresh token viejo se blacklistea.
@@ -34,9 +34,6 @@ export class RefreshTokenUseCase {
     private readonly jwtService: JwtService,
   ) {}
 
-  /**
-   * ★ Ejecuta el caso de uso
-   */
   async execute(dto: RefreshTokenDto): Promise<AuthResponseDto> {
     // Verificar y decodificar el refresh token
     let payload: JwtPayload;
@@ -46,7 +43,6 @@ export class RefreshTokenUseCase {
       throw new UnauthorizedException(MESSAGES.TOKEN_INVALID);
     }
 
-    // Verificar que el refresh token no esté en la blacklist
     const isBlacklisted = await this.blacklistRepository.isBlacklisted(
       dto.refreshToken,
     );
@@ -55,7 +51,6 @@ export class RefreshTokenUseCase {
       throw new UnauthorizedException(MESSAGES.TOKEN_INVALID);
     }
 
-    // Buscar usuario
     const user = await this.userRepository.findById(payload.sub);
 
     if (!user) {
@@ -79,7 +74,6 @@ export class RefreshTokenUseCase {
       throw new InternalServerErrorException('Error al rotar el token');
     }
 
-    // Generar nuevos tokens
     const newPayload = {
       sub: user.getId(),
       email: user.getEmail(),

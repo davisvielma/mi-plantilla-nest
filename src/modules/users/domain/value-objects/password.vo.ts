@@ -4,7 +4,7 @@ import {
 } from '@/modules/shared';
 
 /**
- * ★ Value Object: Password
+ * Value Object: Password
  *
  * Encapsula la validación de la contraseña.
  * NOTA: El hashing se hace en la capa de infraestructura.
@@ -23,7 +23,7 @@ export class Password {
   }
 
   /**
-   * ★ Factory Method - Única forma de crear una Password
+   * Factory Method - Única forma de crear una Password
    */
   static create(plainPassword: string): Password {
     if (!plainPassword || plainPassword.trim().length === 0) {
@@ -40,14 +40,14 @@ export class Password {
   }
 
   /**
-   * ★ Método de dominio: Obtener el valor de la contraseña
+   * Método de dominio: Obtener el valor de la contraseña
    */
   get value(): string {
     return this._value;
   }
 
   /**
-   * ★ Método de dominio: Verificar si la contraseña es segura
+   * Método de dominio: Verificar si la contraseña es segura
    *
    * Reglas adicionales de seguridad (opcionales):
    * - Al menos una mayúscula
@@ -65,7 +65,7 @@ export class Password {
   }
 
   /**
-   * ★ Método de dominio: Obtener la fortaleza de la contraseña (0-5)
+   * Método de dominio: Obtener la fortaleza de la contraseña (0-5)
    *
    * @returns Número entre 0 y 5 indicando la fortaleza
    */
@@ -80,7 +80,7 @@ export class Password {
   }
 
   /**
-   * ★ Método de dominio: Obtener descripción de la fortaleza
+   * Método de dominio: Obtener descripción de la fortaleza
    */
   getStrengthLabel(): string {
     const strength = this.getStrength();
@@ -96,42 +96,42 @@ export class Password {
   }
 
   /**
-   * ★ Método de dominio: Verificar si la contraseña tiene mayúsculas
+   * Método de dominio: Verificar si la contraseña tiene mayúsculas
    */
   hasUpperCase(): boolean {
     return /[A-Z]/.test(this._value);
   }
 
   /**
-   * ★ Método de dominio: Verificar si la contraseña tiene minúsculas
+   * Método de dominio: Verificar si la contraseña tiene minúsculas
    */
   hasLowerCase(): boolean {
     return /[a-z]/.test(this._value);
   }
 
   /**
-   * ★ Método de dominio: Verificar si la contraseña tiene números
+   * Método de dominio: Verificar si la contraseña tiene números
    */
   hasNumbers(): boolean {
     return /\d/.test(this._value);
   }
 
   /**
-   * ★ Método de dominio: Verificar si la contraseña tiene caracteres especiales
+   * Método de dominio: Verificar si la contraseña tiene caracteres especiales
    */
   hasSpecialChars(): boolean {
     return /[!@#$%^&*_+-=;':"|,./?]/.test(this._value);
   }
 
   /**
-   * ★ Método de dominio: Comparar contraseñas
+   * Método de dominio: Comparar contraseñas
    */
   equals(other: Password): boolean {
     return this._value === other._value;
   }
 
   /**
-   * ★ Método de dominio: Verificar si la contraseña es válida
+   * Método de dominio: Verificar si la contraseña es válida
    * (ya se valida en create, pero útil para chequeos)
    */
   isValid(): boolean {

@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 /**
- * ★ Decorador para obtener el usuario autenticado en el request
+ * Decorador para obtener el usuario autenticado en el request
  *
  * @example
  * @Get('profile')

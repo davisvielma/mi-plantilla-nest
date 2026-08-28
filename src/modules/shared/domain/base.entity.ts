@@ -1,5 +1,5 @@
 /**
- * ★ Clase base abstracta para todas las entidades de dominio
+ * Clase base abstracta para todas las entidades de dominio
  *
  * Proporciona comportamiento común:
  * - Identificador único (ID)
@@ -22,14 +22,14 @@ export abstract class Entity<T> {
   }
 
   /**
-   * ★ Obtiene el ID de la entidad
+   * Obtiene el ID de la entidad
    */
   public getId(): string {
     return this._id;
   }
 
   /**
-   * ★ Compara dos entidades por su ID
+   * Compara dos entidades por su ID
    */
   public equals(entity: Entity<T>): boolean {
     if (!entity) return false;
@@ -38,7 +38,7 @@ export abstract class Entity<T> {
   }
 
   /**
-   * ★ Obtiene todas las propiedades como objeto
+   * Obtiene todas las propiedades como objeto
    */
   public toObject(): T {
     return { ...this.props };

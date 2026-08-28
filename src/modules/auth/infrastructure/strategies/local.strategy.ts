@@ -9,7 +9,7 @@ import { ROLES } from '@/modules/shared/constants/roles.constant';
 import { comparePasswords, JwtPayload } from '@/modules/shared';
 
 /**
- * ★ Estrategia Local
+ * Estrategia Local
  *
  * Valida las credenciales (email + contraseña) para login.
  * Se usa en el endpoint POST /auth/login.
@@ -27,7 +27,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   /**
-   * ★ Valida las credenciales del usuario
+   * Valida las credenciales del usuario
    *
    * Este método se ejecuta al intentar autenticar.
    * Retorna el usuario si las credenciales son válidas.

@@ -15,7 +15,7 @@ import {
 export type { IUser, ICreateUser } from '../interfaces/user.interface';
 
 /**
- * ★ Entidad User (Dominio)
+ * Entidad User (Dominio)
  *
  * Representa un usuario en el sistema con sus reglas de negocio.
  * Única forma de crear un usuario es a través del factory method create().
@@ -80,7 +80,7 @@ export class UserEntity extends Entity<IUser> {
     }
   }
 
-  // ★ Getters
+  // Getters
   getFullName(): string {
     return this.props.fullName;
   }
@@ -114,7 +114,7 @@ export class UserEntity extends Entity<IUser> {
   }
 
   /**
-   * ★ Actualiza los datos del usuario (sin rol)
+   * Actualiza los datos del usuario (sin rol)
    */
   update(updateData: ICreateUser): void {
     const { email, fullName, password } = updateData;
@@ -129,7 +129,7 @@ export class UserEntity extends Entity<IUser> {
   }
 
   /**
-   * ★ Actualiza el rol del usuario (solo admin)
+   * Actualiza el rol del usuario (solo admin)
    */
   updateRole(roleId: string): void {
     this.props.roleId = roleId;
@@ -139,7 +139,7 @@ export class UserEntity extends Entity<IUser> {
   }
 
   /**
-   * ★ Soft delete - marca el usuario como eliminado
+   * Soft delete - marca el usuario como eliminado
    */
   softDelete(): void {
     if (this.isDeleted()) {
@@ -150,14 +150,14 @@ export class UserEntity extends Entity<IUser> {
   }
 
   /**
-   * ★ Verifica si el usuario está eliminado
+   * Verifica si el usuario está eliminado
    */
   isDeleted(): boolean {
     return !!this.props.deletedAt;
   }
 
   /**
-   * ★ Factory Method - Única forma de crear un usuario
+   * Factory Method - Única forma de crear un usuario
    */
   static create(user: ICreateUserEntity): UserEntity {
     return new UserEntity({

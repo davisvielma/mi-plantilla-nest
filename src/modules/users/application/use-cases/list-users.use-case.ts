@@ -4,7 +4,7 @@ import type { IUserRepository } from '../../domain/repositories/user.repository.
 import { UserEntity } from '../../domain/entities/user.entity';
 
 /**
- * ★ Caso de Uso: Listar Usuarios
+ * Caso de Uso: Listar Usuarios
  *
  * Obtiene todos los usuarios del sistema.
  */
@@ -16,7 +16,7 @@ export class ListUsersUseCase {
   ) {}
 
   /**
-   * ★ Ejecuta el caso de uso
+   * Ejecuta el caso de uso
    */
   async execute(): Promise<UserEntity[]> {
     return await this.userRepository.findAll();

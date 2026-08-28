@@ -85,6 +85,35 @@ yarn migration:show
 - **Seed**: `ADMIN_EMAIL`, `ADMIN_PASSWORD` (used by `UsersSeeder`)
 - **App**: `NODE_ENV`, `PORT`, `API_PREFIX`, `CORS_ORIGIN`
 
+## Comment Format
+
+Standard comment conventions for this codebase:
+
+**JSDoc blocks** — No special symbols. Title on first line, description after blank line:
+```ts
+/**
+ * Título descriptivo
+ *
+ * Descripción detallada del propósito.
+ */
+```
+
+**Inline comments** — Simple `//` without symbols:
+```ts
+// Descripción del paso
+const result = await service.execute();
+```
+
+**Examples** — Use `@example` JSDoc tag:
+```ts
+/**
+ * Descripción del método
+ *
+ * @example
+ * const value = MyClass.create('input');
+ */
+```
+
 ## ESLint
 
 Flat config (`eslint.config.mjs`). Notable rules:

@@ -35,7 +35,7 @@ import {
 } from '../../application/use-cases';
 
 /**
- * ★ Controller de Usuarios
+ * Controller de Usuarios
  *
  * Adaptador HTTP para la gestión de usuarios.
  * Endpoints protegidos por autenticación JWT y roles.
@@ -54,7 +54,7 @@ export class UsersController {
   ) {}
 
   /**
-   * ★ Crear un nuevo usuario
+   * Crear un nuevo usuario
    */
   @Post()
   @Roles(ValidRoles.admin)
@@ -82,7 +82,7 @@ export class UsersController {
   }
 
   /**
-   * ★ Listar todos los usuarios
+   * Listar todos los usuarios
    */
   @Get()
   @Roles(ValidRoles.admin)
@@ -107,7 +107,7 @@ export class UsersController {
   }
 
   /**
-   * ★ Obtener un usuario por ID
+   * Obtener un usuario por ID
    */
   @Get(':id')
   @ApiOperation({ summary: 'Obtener un usuario por ID' })
@@ -134,7 +134,7 @@ export class UsersController {
   }
 
   /**
-   * ★ Actualizar perfil de usuario
+   * Actualizar perfil de usuario
    */
   @Patch(':id')
   @ApiOperation({ summary: 'Actualizar perfil de usuario' })
@@ -164,7 +164,7 @@ export class UsersController {
   }
 
   /**
-   * ★ Actualizar rol de usuario (solo admin)
+   * Actualizar rol de usuario (solo admin)
    */
   @Patch(':id/role')
   @Roles(ValidRoles.admin)
@@ -193,7 +193,7 @@ export class UsersController {
   }
 
   /**
-   * ★ Eliminar usuario (soft delete)
+   * Eliminar usuario (soft delete)
    */
   @Delete(':id')
   @Roles(ValidRoles.admin)

@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 
 /**
- * ★ DTO para Crear Usuario
+ * DTO para Crear Usuario
  *
  * Define los campos necesarios para crear un nuevo usuario.
  */

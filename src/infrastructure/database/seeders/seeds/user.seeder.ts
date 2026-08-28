@@ -8,7 +8,7 @@ import {
 import { hashPassword } from '@/modules/shared';
 
 /**
- * ★ Seeder para crear el usuario administrador
+ * Seeder para crear el usuario administrador
  *
  * Crea el usuario administrador usando variables de entorno:
  * - ADMIN_EMAIL: Email del administrador
@@ -21,13 +21,11 @@ export class UsersSeeder implements Seeder {
     const userRepo = dataSource.getRepository(UserOrmEntity);
     const roleRepo = dataSource.getRepository(RoleOrmEntity);
 
-    // ★ Obtener variables de entorno
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'Admin123!';
 
     console.log('🌱 Sembrando usuario administrador...');
 
-    // ★ Buscar rol admin
     const adminRole = await roleRepo.findOne({ where: { name: 'admin' } });
 
     if (!adminRole) {
@@ -35,7 +33,6 @@ export class UsersSeeder implements Seeder {
       return;
     }
 
-    // ★ Verificar si el admin ya existe
     const existingAdmin = await userRepo.findOne({
       where: { email: adminEmail },
     });
@@ -45,15 +42,13 @@ export class UsersSeeder implements Seeder {
       return;
     }
 
-    // ★ Hashear contraseña
     const hashedPassword = await hashPassword(adminPassword);
 
-    // ★ Crear usuario admin
     await userRepo.save({
       id: uuid(),
       email: adminEmail.toLocaleLowerCase(),
       password: hashedPassword,
-      fullName: 'Fortlexus Admin'.toLocaleLowerCase(),
+      fullName: 'Admin User'.toLocaleLowerCase(),
       roleId: adminRole.id,
     });
 

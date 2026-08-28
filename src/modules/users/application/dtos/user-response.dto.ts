@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IRole } from '../../domain/interfaces';
 
 /**
- * ★ DTO de Respuesta de Usuario
+ * DTO de Respuesta de Usuario
  *
  * Define la estructura de respuesta al devolver información de un usuario.
  * Nunca incluye el password.

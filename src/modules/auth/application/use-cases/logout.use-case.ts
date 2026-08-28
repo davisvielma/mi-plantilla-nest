@@ -14,7 +14,7 @@ import {
 } from '../../domain/repositories/token-blacklist.repository.interface';
 
 /**
- * ★ Caso de Uso: Logout
+ * Caso de Uso: Logout
  *
  * Cierra la sesión del usuario actual.
  * Agrega el token actual a la blacklist para invalidarlo.
@@ -27,9 +27,6 @@ export class LogoutUseCase {
     private readonly jwtService: JwtService,
   ) {}
 
-  /**
-   * ★ Ejecuta el caso de uso
-   */
   async execute(request: Request): Promise<{ message: string }> {
     const authHeader = request.headers.authorization;
 
@@ -59,7 +56,6 @@ export class LogoutUseCase {
     const expiresAt = new Date((decoded.exp || 0) * 1000);
 
     try {
-      // Agregar token a la blacklist
       await this.blacklistRepository.add(
         token,
         payload.sub,

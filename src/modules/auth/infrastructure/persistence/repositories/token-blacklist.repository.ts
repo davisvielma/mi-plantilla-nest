@@ -6,7 +6,7 @@ import { TokenBlacklistOrmEntity } from '../entities';
 import { ITokenBlacklistRepository } from '../../../domain/repositories';
 
 /**
- * ★ Implementación del Repositorio de Blacklist de Tokens
+ * Implementación del Repositorio de Blacklist de Tokens
  *
  * Implementa ITokenBlacklistRepository usando TypeORM.
  */

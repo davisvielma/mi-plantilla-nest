@@ -14,7 +14,7 @@ import { RoleOrmEntity } from '../../infrastructure/persistence/entities';
 import { Repository } from 'typeorm';
 
 /**
- * ★ Caso de Uso: Actualizar Rol de Usuario
+ * Caso de Uso: Actualizar Rol de Usuario
  *
  * Cambia el rol de un usuario. Solo accesible por administradores.
  */
@@ -28,7 +28,7 @@ export class UpdateUserRoleUseCase {
   ) {}
 
   /**
-   * ★ Ejecuta el caso de uso
+   * Ejecuta el caso de uso
    */
   async execute(id: string, dto: UpdateUserRoleDto): Promise<UserEntity> {
     // Verificar que el usuario existe

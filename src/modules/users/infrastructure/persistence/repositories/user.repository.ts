@@ -7,7 +7,7 @@ import { UserEntity } from './../../../domain/entities';
 import { UserMapper } from './../mappers';
 
 /**
- * ★ Implementación del Repositorio de Usuarios
+ * Implementación del Repositorio de Usuarios
  *
  * Implementa IUserRepository usando TypeORM.
  * Esta es la implementación concreta del puerto definido en el dominio.
@@ -22,7 +22,7 @@ export class UserRepository implements IUserRepository {
   ) {}
 
   /**
-   * ★ Guarda un usuario (crea o actualiza)
+   * Guarda un usuario (crea o actualiza)
    */
   async save(user: UserEntity): Promise<UserEntity | null> {
     const ormEntity = UserMapper.toPersistence(user);
@@ -32,7 +32,7 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * ★ Busca un usuario por su ID (excluye eliminados)
+   * Busca un usuario por su ID (excluye eliminados)
    */
   async findById(id: string): Promise<UserEntity | null> {
     const ormEntity = await this.userRepository.findOne({
@@ -44,7 +44,7 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * ★ Busca un usuario por su email (excluye eliminados)
+   * Busca un usuario por su email (excluye eliminados)
    */
   async findByEmail(email: string): Promise<UserEntity | null> {
     const ormEntity = await this.userRepository.findOne({
@@ -56,7 +56,7 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * ★ Obtiene todos los usuarios (excluye eliminados)
+   * Obtiene todos los usuarios (excluye eliminados)
    */
   async findAll(): Promise<UserEntity[]> {
     const ormEntities = await this.userRepository.find({
@@ -69,7 +69,7 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * ★ Soft delete - marca el usuario como eliminado
+   * Soft delete - marca el usuario como eliminado
    */
   async softDelete(id: string): Promise<void> {
     await this.userRepository.update(
@@ -79,7 +79,7 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * ★ Verifica si existe un usuario con un email (excluye eliminados)
+   * Verifica si existe un usuario con un email (excluye eliminados)
    */
   async existsByEmail(email: string): Promise<boolean> {
     const count = await this.userRepository.count({
@@ -89,7 +89,7 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * ★ Obtiene usuarios por rol (excluye eliminados)
+   * Obtiene usuarios por rol (excluye eliminados)
    */
   async findByRole(roleId: string): Promise<UserEntity[]> {
     const ormEntities = await this.userRepository.find({
@@ -101,7 +101,7 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * ★ Obtiene usuarios eliminados (soft delete)
+   * Obtiene usuarios eliminados (soft delete)
    */
   async findDeleted(): Promise<UserEntity[]> {
     const ormEntities = await this.userRepository.find({

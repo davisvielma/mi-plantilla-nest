@@ -12,7 +12,7 @@ import { TOKEN_BLACKLIST_REPOSITORY } from '../../domain/repositories';
 import type { ITokenBlacklistRepository } from '../../domain/repositories';
 
 /**
- * ★ Estrategia JWT
+ * Estrategia JWT
  *
  * Valida el token JWT de las peticiones autenticadas.
  * Extrae el payload, verifica que no esté en la blacklist y que el usuario exista.
@@ -34,7 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   /**
-   * ★ Valida el payload del JWT
+   * Valida el payload del JWT
    *
    * Este método se ejecuta después de verificar la firma del token.
    * Retorna el usuario que se adjuntará al request.

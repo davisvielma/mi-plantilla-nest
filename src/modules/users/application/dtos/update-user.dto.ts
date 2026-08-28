@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 
 /**
- * ★ DTO para Actualizar Usuario
+ * DTO para Actualizar Usuario
  *
  * Define los campos que un usuario puede actualizar de su perfil.
  * No incluye roleId - para eso está el endpoint de cambio de rol.

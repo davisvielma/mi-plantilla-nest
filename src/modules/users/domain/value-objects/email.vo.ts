@@ -4,7 +4,7 @@ import {
 } from '@/modules/shared';
 
 /**
- * ★ Value Object: Email
+ * Value Object: Email
  *
  * Encapsula la validación y el comportamiento del email.
  * Es inmutable y se valida al crearse.
@@ -24,7 +24,7 @@ export class Email {
   }
 
   /**
-   * ★ Factory Method - Única forma de crear un Email
+   * Factory Method - Única forma de crear un Email
    */
   static create(email: string): Email {
     if (!email || email.trim().length === 0) {
@@ -40,14 +40,14 @@ export class Email {
   }
 
   /**
-   * ★ Método de dominio: Obtener el valor del email
+   * Método de dominio: Obtener el valor del email
    */
   get value(): string {
     return this._value;
   }
 
   /**
-   * ★ Método de dominio: Obtener el dominio del email
+   * Método de dominio: Obtener el dominio del email
    *
    * @example "user@company.com" → "company.com"
    */
@@ -57,7 +57,7 @@ export class Email {
   }
 
   /**
-   * ★ Método de dominio: Obtener el nombre de usuario (antes del @)
+   * Método de dominio: Obtener el nombre de usuario (antes del @)
    *
    * @example "user@company.com" → "user"
    */
@@ -67,14 +67,14 @@ export class Email {
   }
 
   /**
-   * ★ Método de dominio: Comparar emails (ignorando mayúsculas)
+   * Método de dominio: Comparar emails (ignorando mayúsculas)
    */
   equals(other: Email): boolean {
     return this._value === other._value;
   }
 
   /**
-   * ★ Método de dominio: Verificar si el email es válido
+   * Método de dominio: Verificar si el email es válido
    * (ya se valida en create, pero útil para chequeos)
    */
   isValid(): boolean {

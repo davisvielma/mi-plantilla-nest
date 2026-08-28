@@ -3,7 +3,7 @@ import { SetMetadata } from '@nestjs/common';
 export const IS_PUBLIC_KEY = 'isPublic';
 
 /**
- * ★ Decorador para marcar una ruta como pública
+ * Decorador para marcar una ruta como pública
  * (no requiere autenticación JWT)
  *
  * @example

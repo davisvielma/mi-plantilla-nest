@@ -9,7 +9,7 @@ import type { IUserRepository } from '../../domain/repositories/user.repository.
 import { MESSAGES } from '@/modules/shared/constants/messages.constant';
 
 /**
- * ★ Caso de Uso: Soft Delete de Usuario
+ * Caso de Uso: Soft Delete de Usuario
  *
  * Marca un usuario como eliminado (soft delete).
  * Solo accesible por administradores.
@@ -22,7 +22,7 @@ export class SoftDeleteUserUseCase {
   ) {}
 
   /**
-   * ★ Ejecuta el caso de uso
+   * Ejecuta el caso de uso
    */
   async execute(id: string): Promise<{ message: string }> {
     // Verificar que el usuario existe

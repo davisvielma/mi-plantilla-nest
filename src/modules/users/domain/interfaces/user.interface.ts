@@ -1,7 +1,7 @@
 import { IRole } from './role.interface';
 
 /**
- * ★ Interfaz de Usuario
+ * Interfaz de Usuario
  *
  * Define la estructura de datos de un usuario en el dominio.
  */
@@ -18,7 +18,7 @@ export interface IUser {
 }
 
 /**
- * ★ Interfaz para Crear Usuario
+ * Interfaz para Crear Usuario
  *
  * Define los campos necesarios para crear un nuevo usuario.
  */
@@ -29,7 +29,7 @@ export interface ICreateUser {
 }
 
 /**
- * ★ Interfaz para Crear Usuario Entity (interno)
+ * Interfaz para Crear Usuario Entity (interno)
  *
  * Extiende ICreateUser con el roleId para la entidad de dominio.
  */

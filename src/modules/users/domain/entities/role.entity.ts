@@ -3,7 +3,7 @@ import { Entity } from '@/modules/shared/domain/base.entity';
 import { IRole } from '../interfaces/role.interface';
 
 /**
- * ★ Entidad Role (Dominio)
+ * Entidad Role (Dominio)
  *
  * Representa un rol en el sistema con sus reglas de negocio.
  */

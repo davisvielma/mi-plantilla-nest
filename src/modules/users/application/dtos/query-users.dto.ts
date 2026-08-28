@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
 /**
- * ★ DTO para Consultar Usuarios
+ * DTO para Consultar Usuarios
  *
  * Define los filtros opcionales para buscar usuarios.
  */

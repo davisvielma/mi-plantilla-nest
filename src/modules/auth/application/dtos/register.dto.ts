@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
 
 /**
- * ★ DTO para Registro de Usuario
+ * DTO para Registro de Usuario
  *
  * Define los campos necesarios para registrar un nuevo usuario.
  */

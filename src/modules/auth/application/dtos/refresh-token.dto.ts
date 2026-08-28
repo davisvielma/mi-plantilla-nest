@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty } from 'class-validator';
 
 /**
- * ★ DTO para Refresh Token
+ * DTO para Refresh Token
  *
  * Define el campo necesario para refrescar el access token.
  */

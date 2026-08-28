@@ -4,7 +4,7 @@ import { ValidRoles } from '../interfaces';
 export const ROLES_KEY = 'roles';
 
 /**
- * ★ Decorador para definir qué roles tienen acceso a una ruta
+ * Decorador para definir qué roles tienen acceso a una ruta
  *
  * @example
  * @Roles('admin')

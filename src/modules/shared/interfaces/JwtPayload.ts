@@ -1,5 +1,5 @@
 /**
- * ★ Interfaz del payload del JWT
+ * Interfaz del payload del JWT
  */
 export interface JwtPayload {
   sub: string;

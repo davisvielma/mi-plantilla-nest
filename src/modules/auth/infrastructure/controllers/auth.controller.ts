@@ -28,7 +28,7 @@ import {
 } from '../../application/use-cases';
 
 /**
- * ★ Controller de Autenticación
+ * Controller de Autenticación
  *
  * Adaptador HTTP para la autenticación de usuarios.
  * Endpoints para login, refresh token y logout.
@@ -43,9 +43,6 @@ export class AuthController {
     private readonly registerUseCase: RegisterUseCase,
   ) {}
 
-  /**
-   * ★ Login - Autenticar usuario
-   */
   @Post('login')
   @Public()
   @HttpCode(HttpStatus.OK)
@@ -74,9 +71,6 @@ export class AuthController {
     return this.registerUseCase.execute(dto);
   }
 
-  /**
-   * ★ Refresh Token - Refrescar access token
-   */
   @Post('refresh')
   @Public()
   @HttpCode(HttpStatus.OK)
@@ -91,9 +85,6 @@ export class AuthController {
     return this.refreshTokenUseCase.execute(dto);
   }
 
-  /**
-   * ★ Logout - Cerrar sesión
-   */
   @Post('logout')
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)

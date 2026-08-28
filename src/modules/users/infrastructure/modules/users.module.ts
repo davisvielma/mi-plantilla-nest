@@ -14,7 +14,7 @@ import {
 } from '../../application/use-cases';
 
 /**
- * ★ Módulo de Usuarios
+ * Módulo de Usuarios
  *
  * Configura la inyección de dependencias para el módulo de usuarios.
  * Incluye: repositories, use cases, y controllers.

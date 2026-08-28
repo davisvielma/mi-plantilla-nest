@@ -8,7 +8,7 @@ import {
 import { TokenBlacklistOrmEntity } from '@/modules/auth/infrastructure/persistence/entities';
 
 /**
- * ★ Módulo de Base de Datos
+ * Módulo de Base de Datos
  *
  * Configura la conexión a TypeORM para la aplicación NestJS.
  * Este módulo es separado de data-source.ts (que se usa para CLI/migraciones).
