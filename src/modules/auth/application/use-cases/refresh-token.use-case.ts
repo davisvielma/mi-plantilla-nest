@@ -74,10 +74,11 @@ export class RefreshTokenUseCase {
       throw new InternalServerErrorException('Error al rotar el token');
     }
 
-    const newPayload = {
+    const newPayload: JwtPayload = {
       sub: user.getId(),
       email: user.getEmail(),
-      role: user.getRole()?.name || ROLES.USER,
+      fullName: user.getFullName(),
+      role: { id: user.getRoleId(), name: user.getRole()?.name || ROLES.USER },
     };
 
     const accessToken = this.jwtService.sign(newPayload, {
