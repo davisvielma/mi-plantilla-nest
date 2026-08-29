@@ -6,12 +6,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { USER_REPOSITORY } from '@/modules/users/domain/repositories';
 import type { IUserRepository } from '@/modules/users/domain/repositories';
+import { ROLE_REPOSITORY } from '@/modules/users/domain/repositories/role.repository.interface';
+import type { IRoleRepository } from '@/modules/users/domain/repositories/role.repository.interface';
 import { UserEntity } from '@/modules/users/domain/entities/user.entity';
-import { RoleOrmEntity } from '@/modules/users/infrastructure/persistence/entities';
 import { MESSAGES } from '@/modules/shared/constants/messages.constant';
 import { ROLES } from '@/modules/shared/constants/roles.constant';
 import { RegisterDto, AuthResponseDto } from '../dtos';
@@ -29,8 +28,8 @@ export class RegisterUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
-    @InjectRepository(RoleOrmEntity)
-    private readonly roleRepository: Repository<RoleOrmEntity>,
+    @Inject(ROLE_REPOSITORY)
+    private readonly roleRepository: IRoleRepository,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -40,9 +39,7 @@ export class RegisterUseCase {
       throw new ConflictException(MESSAGES.USER_ALREADY_EXISTS);
     }
 
-    const role = await this.roleRepository.findOne({
-      where: { name: ROLES.USER },
-    });
+    const role = await this.roleRepository.findByName(ROLES.USER);
 
     if (!role) {
       throw new NotFoundException(MESSAGES.ROLE_NOT_FOUND);
@@ -54,7 +51,7 @@ export class RegisterUseCase {
       email: dto.email,
       password: hashedPassword,
       fullName: dto.fullName,
-      roleId: role.id,
+      roleId: role.getId(),
     });
 
     const savedUser = await this.userRepository.save(user);
@@ -66,8 +63,8 @@ export class RegisterUseCase {
     const payload: JwtPayload = {
       sub: savedUser.getId(),
       email: savedUser.getEmail(),
-      fullName: user.getFullName(),
-      role: { id: user.getRoleId(), name: user.getRole()?.name || ROLES.USER },
+      fullName: savedUser.getFullName(),
+      role: { id: savedUser.getRoleId(), name: role.getName() },
     };
 
     const accessToken = this.jwtService.sign(payload, {
@@ -85,8 +82,8 @@ export class RegisterUseCase {
         email: savedUser.getEmail(),
         fullName: savedUser.getFullName(),
         role: {
-          id: user.getRoleId(),
-          name: user.getRole()?.name || ROLES.USER,
+          id: savedUser.getRoleId(),
+          name: role.getName(),
         },
       },
     };

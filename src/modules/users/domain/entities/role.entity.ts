@@ -12,6 +12,13 @@ export class RoleEntity extends Entity<IRole> {
     super(role.id, role);
   }
 
+  /**
+   * Factory Method - Única forma de crear un RoleEntity
+   */
+  static create(role: IRole): RoleEntity {
+    return new RoleEntity(role);
+  }
+
   getName(): string {
     return this.props.name;
   }

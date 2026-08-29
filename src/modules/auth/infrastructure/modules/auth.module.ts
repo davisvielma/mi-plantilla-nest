@@ -4,7 +4,6 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from '@/modules/users/infrastructure/modules/users.module';
-import { RoleOrmEntity } from '@/modules/users/infrastructure/persistence/entities';
 import { AuthController } from '../controllers/auth.controller';
 import {
   LoginUseCase,
@@ -27,7 +26,7 @@ import type { StringValue } from 'ms';
 @Module({
   imports: [
     UsersModule,
-    TypeOrmModule.forFeature([RoleOrmEntity, TokenBlacklistOrmEntity]),
+    TypeOrmModule.forFeature([TokenBlacklistOrmEntity]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],

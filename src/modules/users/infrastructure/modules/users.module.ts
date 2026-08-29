@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserOrmEntity, RoleOrmEntity } from './../persistence/entities';
-import { UserRepository } from './../persistence/repositories';
+import { UserRepository, RoleRepository } from './../persistence/repositories';
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
+import { ROLE_REPOSITORY } from '../../domain/repositories/role.repository.interface';
 import { UsersController } from './../controllers';
 import {
   CreateUserUseCase,
@@ -27,6 +28,10 @@ import {
       provide: USER_REPOSITORY,
       useClass: UserRepository,
     },
+    {
+      provide: ROLE_REPOSITORY,
+      useClass: RoleRepository,
+    },
     CreateUserUseCase,
     FindUserByIdUseCase,
     ListUsersUseCase,
@@ -34,6 +39,6 @@ import {
     UpdateUserRoleUseCase,
     SoftDeleteUserUseCase,
   ],
-  exports: [USER_REPOSITORY],
+  exports: [USER_REPOSITORY, ROLE_REPOSITORY],
 })
 export class UsersModule {}

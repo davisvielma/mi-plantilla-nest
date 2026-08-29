@@ -6,12 +6,11 @@ import {
 } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
 import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
+import { ROLE_REPOSITORY } from '../../domain/repositories/role.repository.interface';
+import type { IRoleRepository } from '../../domain/repositories/role.repository.interface';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { MESSAGES } from '@/modules/shared/constants/messages.constant';
 import { UpdateUserRoleDto } from '../dtos/update-user-role.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { RoleOrmEntity } from '../../infrastructure/persistence/entities';
-import { Repository } from 'typeorm';
 
 /**
  * Caso de Uso: Actualizar Rol de Usuario
@@ -23,32 +22,27 @@ export class UpdateUserRoleUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
-    @InjectRepository(RoleOrmEntity)
-    private readonly roleRepository: Repository<RoleOrmEntity>,
+    @Inject(ROLE_REPOSITORY)
+    private readonly roleRepository: IRoleRepository,
   ) {}
 
   /**
    * Ejecuta el caso de uso
    */
   async execute(id: string, dto: UpdateUserRoleDto): Promise<UserEntity> {
-    // Verificar que el usuario existe
     const user = await this.userRepository.findById(id);
     if (!user) {
       throw new NotFoundException(MESSAGES.USER_NOT_FOUND);
     }
 
-    const role = await this.roleRepository.findOne({
-      where: { id: dto.roleId },
-    });
+    const role = await this.roleRepository.findById(dto.roleId);
 
     if (!role) {
       throw new InternalServerErrorException(MESSAGES.ROLE_NOT_FOUND);
     }
 
-    // Actualizar rol
     user.updateRole(dto.roleId);
 
-    // Guardar en repositorio
     const updatedUser = await this.userRepository.save(user);
 
     if (!updatedUser) {
