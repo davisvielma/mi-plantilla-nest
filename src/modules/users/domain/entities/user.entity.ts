@@ -6,7 +6,10 @@ import {
   ICreateUserEntity,
 } from '../interfaces/user.interface';
 import { IRole } from '../interfaces';
-import { EntityDeletedException, RequiredFieldException } from '@/modules/shared';
+import {
+  EntityDeletedException,
+  RequiredFieldException,
+} from '@/modules/shared';
 import { Email } from '../value-objects/email.vo';
 import { Password } from '../value-objects/password.vo';
 
