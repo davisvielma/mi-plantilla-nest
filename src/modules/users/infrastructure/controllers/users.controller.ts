@@ -16,9 +16,6 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { Roles } from '@/modules/shared/decorators/roles.decorator';
-import { CurrentUser } from '@/modules/shared/decorators/current-user.decorator';
-import { type JwtPayload, ValidRoles } from '@/modules/shared/interfaces';
 import {
   CreateUserDto,
   UpdateUserDto,
@@ -34,6 +31,8 @@ import {
   UpdateUserRoleUseCase,
   SoftDeleteUserUseCase,
 } from '../../application/use-cases';
+import { CurrentUser, Roles } from '@/modules/shared/decorators';
+import { type JwtPayload, ValidRoles } from '@/modules/shared/interfaces';
 
 /**
  * Controller de Usuarios

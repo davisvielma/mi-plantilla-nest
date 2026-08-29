@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserOrmEntity, RoleOrmEntity } from './../persistence/entities';
-import { UserRepository, RoleRepository } from './../persistence/repositories';
-import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
-import { ROLE_REPOSITORY } from '../../domain/repositories/role.repository.interface';
+import { RoleRepository, UserRepository } from './../persistence/repositories';
+import { USER_REPOSITORY, ROLE_REPOSITORY } from '../../domain/repositories';
 import { UsersController } from './../controllers';
 import {
   CreateUserUseCase,

@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
-import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { UserEntity } from '../../domain/entities/user.entity';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+} from '../../domain/repositories';
+import { UserEntity } from '../../domain/entities';
 
 /**
  * Caso de Uso: Listar Usuarios

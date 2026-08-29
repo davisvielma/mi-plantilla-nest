@@ -1,6 +1,6 @@
-import { ROLES } from '@/modules/shared/constants/roles.constant';
-import { Entity } from '@/modules/shared/domain/base.entity';
-import { IRole } from '../interfaces/role.interface';
+import { Entity } from '@/modules/shared/domain';
+import { ROLES } from '@/modules/shared/constants';
+import { IRole } from '../interfaces';
 
 /**
  * Entidad Role (Dominio)

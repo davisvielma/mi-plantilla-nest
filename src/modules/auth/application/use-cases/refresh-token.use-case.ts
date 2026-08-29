@@ -5,17 +5,17 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { USER_REPOSITORY } from '@/modules/users/domain/repositories/user.repository.interface';
-import type { IUserRepository } from '@/modules/users/domain/repositories/user.repository.interface';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { RefreshTokenDto } from '../dtos/refresh-token.dto';
-import { AuthResponseDto } from '../dtos/auth-response.dto';
-import { JwtPayload } from '@/modules/shared';
-import { ROLES } from '@/modules/shared/constants/roles.constant';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+} from '@/modules/users/domain/repositories';
 import {
   type ITokenBlacklistRepository,
   TOKEN_BLACKLIST_REPOSITORY,
 } from '../../domain/repositories';
+import { AuthResponseDto, RefreshTokenDto } from '../dtos';
+import { JwtPayload } from '@/modules/shared/interfaces';
+import { ROLES, MESSAGES } from '@/modules/shared/constants';
 import type { StringValue } from 'ms';
 
 /**

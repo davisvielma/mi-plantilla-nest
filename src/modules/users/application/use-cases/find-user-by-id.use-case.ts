@@ -1,8 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
-import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { UserEntity } from '../../domain/entities/user.entity';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+} from '../../domain/repositories';
+import { UserEntity } from '../../domain/entities';
+import { MESSAGES } from '@/modules/shared/constants';
 
 /**
  * Caso de Uso: Buscar Usuario por ID

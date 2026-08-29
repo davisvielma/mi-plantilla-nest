@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { JwtPayload } from '@/modules/shared';
 import {
   type ITokenBlacklistRepository,
   TOKEN_BLACKLIST_REPOSITORY,
-} from '../../domain/repositories/token-blacklist.repository.interface';
+} from '../../domain/repositories';
+import { MESSAGES } from '@/modules/shared/constants';
+import { JwtPayload } from '@/modules/shared/interfaces';
 
 /**
  * Caso de Uso: Logout

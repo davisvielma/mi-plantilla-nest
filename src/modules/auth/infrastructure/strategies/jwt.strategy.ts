@@ -1,15 +1,18 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { Inject } from '@nestjs/common';
-import { USER_REPOSITORY } from '@/modules/users/domain/repositories/user.repository.interface';
-import type { IUserRepository } from '@/modules/users/domain/repositories/user.repository.interface';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { JwtPayload } from '@/modules/shared';
-import { ROLES } from '@/modules/shared/constants/roles.constant';
-import { TOKEN_BLACKLIST_REPOSITORY } from '../../domain/repositories';
-import type { ITokenBlacklistRepository } from '../../domain/repositories';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+} from '@/modules/users/domain/repositories';
+import {
+  TOKEN_BLACKLIST_REPOSITORY,
+  type ITokenBlacklistRepository,
+} from '../../domain/repositories';
+import { MESSAGES, ROLES } from '@/modules/shared/constants';
+import { JwtPayload } from '@/modules/shared/interfaces';
 
 /**
  * Estrategia JWT

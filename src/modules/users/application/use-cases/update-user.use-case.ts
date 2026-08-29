@@ -5,13 +5,14 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
-import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { UserEntity } from '../../domain/entities/user.entity';
-
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { hashPassword } from '@/modules/shared';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+} from '../../domain/repositories';
+import { UserEntity } from '../../domain/entities';
+import { UpdateUserDto } from '../dtos';
+import { MESSAGES } from '@/modules/shared/constants';
+import { hashPassword } from '@/modules/shared/utils';
 
 /**
  * Caso de Uso: Actualizar Usuario

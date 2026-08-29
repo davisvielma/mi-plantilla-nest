@@ -1,12 +1,13 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { USER_REPOSITORY } from '@/modules/users/domain/repositories/user.repository.interface';
-import type { IUserRepository } from '@/modules/users/domain/repositories/user.repository.interface';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { LoginDto } from '../dtos/login.dto';
-import { AuthResponseDto } from '../dtos/auth-response.dto';
-import { comparePasswords, JwtPayload } from '@/modules/shared';
-import { ROLES } from '@/modules/shared/constants/roles.constant';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+} from '@/modules/users/domain/repositories';
+import { LoginDto, AuthResponseDto } from '../dtos';
+import { MESSAGES, ROLES } from '@/modules/shared/constants';
+import { comparePasswords } from '@/modules/shared/utils';
+import { JwtPayload } from '@/modules/shared/interfaces';
 import type { StringValue } from 'ms';
 
 /**

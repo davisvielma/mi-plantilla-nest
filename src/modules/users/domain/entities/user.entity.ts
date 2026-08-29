@@ -1,17 +1,12 @@
-import { Entity } from '../../../shared/domain/base.entity';
 import { v4 as uuid } from 'uuid';
-import {
-  IUser,
-  IUpdateUser,
-  ICreateUserEntity,
-} from '../interfaces/user.interface';
-import { IRole } from '../interfaces';
+import { IRole, IUser, IUpdateUser, ICreateUserEntity } from '../interfaces';
+import { Email, Password } from '../value-objects';
+import { Entity } from '@/modules/shared/domain';
 import {
   EntityDeletedException,
+  InvalidFormatException,
   RequiredFieldException,
-} from '@/modules/shared';
-import { Email } from '../value-objects/email.vo';
-import { Password } from '../value-objects/password.vo';
+} from '@/modules/shared/exceptions/exceptions';
 
 /**
  * Entidad User (Dominio)
@@ -42,13 +37,13 @@ export class UserEntity extends Entity<IUser> {
 
   private validateName(): void {
     if (this.props.fullName.length < 3) {
-      throw new RequiredFieldException(
+      throw new InvalidFormatException(
         'El nombre completo debe tener al menos 3 caracteres',
       );
     }
 
     if (this.props.fullName.length > 255) {
-      throw new RequiredFieldException(
+      throw new InvalidFormatException(
         'El nombre completo no puede exceder los 255 caracteres',
       );
     }

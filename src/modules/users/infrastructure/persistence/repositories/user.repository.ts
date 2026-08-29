@@ -17,8 +17,6 @@ export class UserRepository implements IUserRepository {
   constructor(
     @InjectRepository(UserOrmEntity)
     private readonly userRepository: Repository<UserOrmEntity>,
-    // @InjectRepository(RoleOrmEntity)
-    // private readonly roleRepository: Repository<RoleOrmEntity>,
   ) {}
 
   /**

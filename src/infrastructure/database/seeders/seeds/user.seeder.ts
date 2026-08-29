@@ -5,7 +5,7 @@ import {
   RoleOrmEntity,
   UserOrmEntity,
 } from '@/modules/users/infrastructure/persistence/entities';
-import { hashPassword } from '@/modules/shared';
+import { hashPassword } from '@/modules/shared/utils';
 
 /**
  * Seeder para crear el usuario administrador

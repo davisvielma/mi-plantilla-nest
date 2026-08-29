@@ -13,7 +13,6 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { Public } from '@/modules/shared/decorators/public.decorator';
 import {
   LoginDto,
   RefreshTokenDto,
@@ -26,6 +25,7 @@ import {
   LogoutUseCase,
   RegisterUseCase,
 } from '../../application/use-cases';
+import { Public } from '@/modules/shared/decorators';
 
 /**
  * Controller de Autenticación

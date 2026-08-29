@@ -4,13 +4,15 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
-import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { ROLE_REPOSITORY } from '../../domain/repositories/role.repository.interface';
-import type { IRoleRepository } from '../../domain/repositories/role.repository.interface';
-import { UserEntity } from '../../domain/entities/user.entity';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { UpdateUserRoleDto } from '../dtos/update-user-role.dto';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+  ROLE_REPOSITORY,
+  type IRoleRepository,
+} from '../../domain/repositories';
+import { UpdateUserRoleDto } from '../dtos';
+import { UserEntity } from '../../domain/entities';
+import { MESSAGES } from '@/modules/shared/constants';
 
 /**
  * Caso de Uso: Actualizar Rol de Usuario

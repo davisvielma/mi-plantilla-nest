@@ -4,9 +4,11 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
-import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+} from '../../domain/repositories';
+import { MESSAGES } from '@/modules/shared/constants';
 
 /**
  * Caso de Uso: Soft Delete de Usuario

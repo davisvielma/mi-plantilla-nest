@@ -5,14 +5,16 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
-import type { IUserRepository } from '../../domain/repositories/user.repository.interface';
-import { ROLE_REPOSITORY } from '../../domain/repositories/role.repository.interface';
-import type { IRoleRepository } from '../../domain/repositories/role.repository.interface';
-import { UserEntity } from '../../domain/entities/user.entity';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { hashPassword } from '@/modules/shared';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+  ROLE_REPOSITORY,
+  type IRoleRepository,
+} from '../../domain/repositories';
+import { UserEntity } from '../../domain/entities';
+import { CreateUserDto } from '../dtos';
+import { MESSAGES } from '@/modules/shared/constants';
+import { hashPassword } from '@/modules/shared/utils';
 
 /**
  * Caso de Uso: Crear Usuario

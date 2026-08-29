@@ -1,6 +1,6 @@
 import { UserEntity } from './../../../domain/entities';
 import { UserOrmEntity } from './../entities';
-import { UserResponseDto } from '../../../application/dtos/user-response.dto';
+import { UserResponseDto } from '../../../application/dtos';
 
 /**
  * Mapper: Dominio ↔ Persistencia ↔ Respuesta

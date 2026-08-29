@@ -6,15 +6,17 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { USER_REPOSITORY } from '@/modules/users/domain/repositories';
-import type { IUserRepository } from '@/modules/users/domain/repositories';
-import { ROLE_REPOSITORY } from '@/modules/users/domain/repositories/role.repository.interface';
-import type { IRoleRepository } from '@/modules/users/domain/repositories/role.repository.interface';
-import { UserEntity } from '@/modules/users/domain/entities/user.entity';
-import { MESSAGES } from '@/modules/shared/constants/messages.constant';
-import { ROLES } from '@/modules/shared/constants/roles.constant';
+import {
+  USER_REPOSITORY,
+  type IUserRepository,
+  ROLE_REPOSITORY,
+  type IRoleRepository,
+} from '@/modules/users/domain/repositories';
 import { RegisterDto, AuthResponseDto } from '../dtos';
-import { hashPassword, JwtPayload } from '@/modules/shared';
+import { UserEntity } from '@/modules/users/domain/entities';
+import { MESSAGES, ROLES } from '@/modules/shared/constants';
+import { hashPassword } from '@/modules/shared/utils';
+import { JwtPayload } from '@/modules/shared/interfaces';
 import type { StringValue } from 'ms';
 
 /**

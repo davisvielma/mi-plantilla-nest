@@ -1,7 +1,7 @@
 import {
   InvalidFormatException,
   RequiredFieldException,
-} from '@/modules/shared';
+} from '@/modules/shared/exceptions/exceptions';
 
 /**
  * Value Object: Email
