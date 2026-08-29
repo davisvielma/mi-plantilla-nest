@@ -2,17 +2,13 @@ import { Entity } from '../../../shared/domain/base.entity';
 import { v4 as uuid } from 'uuid';
 import {
   IUser,
-  ICreateUser,
+  IUpdateUser,
   ICreateUserEntity,
 } from '../interfaces/user.interface';
 import { IRole } from '../interfaces';
-import {
-  EntityDeletedException,
-  InvalidFormatException,
-  RequiredFieldException,
-} from '@/modules/shared';
-
-export type { IUser, ICreateUser } from '../interfaces/user.interface';
+import { EntityDeletedException, RequiredFieldException } from '@/modules/shared';
+import { Email } from '../value-objects/email.vo';
+import { Password } from '../value-objects/password.vo';
 
 /**
  * Entidad User (Dominio)
@@ -28,20 +24,10 @@ export class UserEntity extends Entity<IUser> {
 
   private validate(): void {
     this.validateRequiredFields();
-    this.validateEmail();
-    this.validatePassword();
     this.validateName();
   }
 
   private validateRequiredFields(): void {
-    if (!this.props.email || this.props.email.trim().length === 0) {
-      throw new RequiredFieldException('El email es requerido');
-    }
-
-    if (!this.props.password || this.props.password.trim().length === 0) {
-      throw new RequiredFieldException('La contraseña es requerida');
-    }
-
     if (!this.props.fullName || this.props.fullName.trim().length === 0) {
       throw new RequiredFieldException('El nombre completo es requerido');
     }
@@ -51,30 +37,15 @@ export class UserEntity extends Entity<IUser> {
     }
   }
 
-  private validateEmail(): void {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.props.email)) {
-      throw new InvalidFormatException('El formato del email es inválido');
-    }
-  }
-
-  private validatePassword(): void {
-    if (this.props.password.length < 8) {
-      throw new InvalidFormatException(
-        'La contraseña debe tener al menos 8 caracteres',
-      );
-    }
-  }
-
   private validateName(): void {
     if (this.props.fullName.length < 3) {
-      throw new InvalidFormatException(
+      throw new RequiredFieldException(
         'El nombre completo debe tener al menos 3 caracteres',
       );
     }
 
     if (this.props.fullName.length > 255) {
-      throw new InvalidFormatException(
+      throw new RequiredFieldException(
         'El nombre completo no puede exceder los 255 caracteres',
       );
     }
@@ -116,12 +87,13 @@ export class UserEntity extends Entity<IUser> {
   /**
    * Actualiza los datos del usuario (sin rol)
    */
-  update(updateData: ICreateUser): void {
-    const { email, fullName, password } = updateData;
+  update(updateData: IUpdateUser): void {
+    const email = Email.create(updateData.email);
+    const password = Password.create(updateData.password);
 
-    this.props.fullName = fullName;
-    this.props.email = email;
-    this.props.password = password;
+    this.props.fullName = updateData.fullName;
+    this.props.email = email.value;
+    this.props.password = password.value;
 
     this.props.updatedAt = new Date();
 
@@ -160,11 +132,14 @@ export class UserEntity extends Entity<IUser> {
    * Factory Method - Única forma de crear un usuario
    */
   static create(user: ICreateUserEntity): UserEntity {
+    const email = Email.create(user.email);
+    const password = Password.create(user.password);
+
     return new UserEntity({
       id: uuid(),
       fullName: user.fullName.trim(),
-      email: user.email.trim().toLowerCase(),
-      password: user.password,
+      email: email.value,
+      password: password.value,
       roleId: user.roleId.trim(),
       createdAt: new Date(),
     });
