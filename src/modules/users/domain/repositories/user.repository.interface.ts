@@ -1,6 +1,29 @@
 import { UserEntity } from '../entities';
 
 /**
+ * Opciones de paginación para el repositorio
+ */
+export interface FindAllOptions {
+  page: number;
+  limit: number;
+  sort: string;
+  order: 'ASC' | 'DESC';
+  filters?: {
+    email?: string;
+    roleId?: string;
+    fullName?: string;
+  };
+}
+
+/**
+ * Resultado paginado del repositorio
+ */
+export interface PaginatedResult<T> {
+  data: T[];
+  total: number;
+}
+
+/**
  * Puerto: Repositorio de Usuarios
  *
  * Define las operaciones que debe implementar la infraestructura.
@@ -22,9 +45,9 @@ export interface IUserRepository {
   findByEmail(email: string): Promise<UserEntity | null>;
 
   /**
-   * Obtiene todos los usuarios
+   * Obtiene todos los usuarios con paginación y filtros
    */
-  findAll(): Promise<UserEntity[]>;
+  findAll(options: FindAllOptions): Promise<PaginatedResult<UserEntity>>;
 
   /**
    * Elimina un usuario (soft delete)

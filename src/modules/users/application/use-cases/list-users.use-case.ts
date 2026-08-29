@@ -4,11 +4,13 @@ import {
   type IUserRepository,
 } from '../../domain/repositories';
 import { UserEntity } from '../../domain/entities';
+import { QueryUsersDto } from '../dtos';
+import { PageDto, PageMetaDto } from '@/modules/shared/dto';
 
 /**
  * Caso de Uso: Listar Usuarios
  *
- * Obtiene todos los usuarios del sistema.
+ * Obtiene usuarios paginados del sistema con filtros y ordenamiento.
  */
 @Injectable()
 export class ListUsersUseCase {
@@ -20,7 +22,20 @@ export class ListUsersUseCase {
   /**
    * Ejecuta el caso de uso
    */
-  async execute(): Promise<UserEntity[]> {
-    return await this.userRepository.findAll();
+  async execute(query: QueryUsersDto): Promise<PageDto<UserEntity>> {
+    const { data, total } = await this.userRepository.findAll({
+      page: query.page,
+      limit: query.limit,
+      sort: query.sort,
+      order: query.order,
+      filters: {
+        email: query.email,
+        roleId: query.roleId,
+        fullName: query.fullName,
+      },
+    });
+
+    const meta = new PageMetaDto(total, query.page, query.limit);
+    return new PageDto(data, meta);
   }
 }

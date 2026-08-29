@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
   ParseUUIDPipe,
   HttpCode,
   HttpStatus,
@@ -21,6 +22,7 @@ import {
   UpdateUserDto,
   UpdateUserRoleDto,
   UserResponseDto,
+  QueryUsersDto,
 } from '../../application/dtos';
 import { UserMapper } from '../persistence/mappers';
 import {
@@ -33,6 +35,7 @@ import {
 } from '../../application/use-cases';
 import { CurrentUser, Roles } from '@/modules/shared/decorators';
 import { type JwtPayload, ValidRoles } from '@/modules/shared/interfaces';
+import { PageDto } from '@/modules/shared/dto';
 
 /**
  * Controller de Usuarios
@@ -73,19 +76,21 @@ export class UsersController {
   }
 
   /**
-   * Listar todos los usuarios
+   * Listar usuarios con paginación y filtros
    */
   @Get()
   @Roles(ValidRoles.admin)
-  @ApiOperation({ summary: 'Listar todos los usuarios' })
+  @ApiOperation({ summary: 'Listar usuarios paginados' })
   @ApiResponse({
     status: 200,
-    description: 'Lista de usuarios obtenida exitosamente',
-    type: [UserResponseDto],
+    description: 'Lista paginada de usuarios obtenida exitosamente',
   })
-  async findAll(): Promise<UserResponseDto[]> {
-    const users = await this.listUsersUseCase.execute();
-    return UserMapper.toResponseList(users);
+  async findAll(
+    @Query() query: QueryUsersDto,
+  ): Promise<PageDto<UserResponseDto>> {
+    const page = await this.listUsersUseCase.execute(query);
+    const data = UserMapper.toResponseList(page.data);
+    return new PageDto(data, page.meta);
   }
 
   /**

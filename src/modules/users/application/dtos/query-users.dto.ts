@@ -1,12 +1,14 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
+import { PageOptionsDto } from '@/modules/shared/dto/page-options.dto';
 
 /**
  * DTO para Consultar Usuarios
  *
  * Define los filtros opcionales para buscar usuarios.
+ * Hereda de PageOptionsDto para soportar paginación.
  */
-export class QueryUsersDto {
+export class QueryUsersDto extends PageOptionsDto {
   @ApiPropertyOptional({
     description: 'Filtrar por email (búsqueda parcial)',
     example: 'ejemplo',

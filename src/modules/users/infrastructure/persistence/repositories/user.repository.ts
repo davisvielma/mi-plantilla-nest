@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, IsNull, Not } from 'typeorm';
 import { UserOrmEntity } from './../entities';
-import { IUserRepository } from './../../../domain/repositories';
+import {
+  IUserRepository,
+  FindAllOptions,
+  PaginatedResult,
+} from './../../../domain/repositories';
 import { UserEntity } from './../../../domain/entities';
 import { UserMapper } from './../mappers';
 
@@ -54,16 +58,47 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * Obtiene todos los usuarios (excluye eliminados)
+   * Obtiene todos los usuarios con paginación y filtros (excluye eliminados)
    */
-  async findAll(): Promise<UserEntity[]> {
-    const ormEntities = await this.userRepository.find({
-      where: { deletedAt: IsNull() },
-      relations: { role: true },
-      order: { createdAt: 'DESC' },
-    });
+  async findAll(options: FindAllOptions): Promise<PaginatedResult<UserEntity>> {
+    const { page, limit, sort, order, filters } = options;
 
-    return ormEntities.map((orm) => UserMapper.toDomain(orm));
+    const queryBuilder = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('user.deletedAt IS NULL');
+
+    // Aplicar filtros
+    if (filters?.email) {
+      queryBuilder.andWhere('user.email LIKE :email', {
+        email: `%${filters.email.toLowerCase()}%`,
+      });
+    }
+
+    if (filters?.roleId) {
+      queryBuilder.andWhere('user.roleId = :roleId', {
+        roleId: filters.roleId,
+      });
+    }
+
+    if (filters?.fullName) {
+      queryBuilder.andWhere('user.fullName LIKE :fullName', {
+        fullName: `%${filters.fullName}%`,
+      });
+    }
+
+    // Aplicar ordenamiento
+    const validSortFields = ['createdAt', 'updatedAt', 'email', 'fullName'];
+    const sortField = validSortFields.includes(sort) ? sort : 'createdAt';
+    queryBuilder.orderBy(`user.${sortField}`, order);
+
+    // Aplicar paginación
+    queryBuilder.skip((page - 1) * limit).take(limit);
+
+    const [ormEntities, total] = await queryBuilder.getManyAndCount();
+    const data = ormEntities.map((orm) => UserMapper.toDomain(orm));
+
+    return { data, total };
   }
 
   /**
