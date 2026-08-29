@@ -13,7 +13,6 @@ import {
   LogoutUseCase,
 } from '../../application/use-cases';
 import { JwtStrategy } from '../strategies/jwt.strategy';
-import { LocalStrategy } from '../strategies/local.strategy';
 import { TOKEN_BLACKLIST_REPOSITORY } from '../../domain/repositories';
 import { TokenBlacklistRepository } from '../persistence/repositories';
 import { TokenBlacklistOrmEntity } from '../persistence/entities';
@@ -52,7 +51,6 @@ import type { StringValue } from 'ms';
     RefreshTokenUseCase,
     LogoutUseCase,
     JwtStrategy,
-    LocalStrategy,
   ],
   exports: [JwtModule],
 })

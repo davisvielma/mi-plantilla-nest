@@ -59,14 +59,14 @@ export class AuthController {
 
   @Post('register')
   @Public()
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Registro de usuario' })
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'Registro exitoso',
     type: AuthResponseDto,
   })
-  @ApiResponse({ status: 401, description: 'Credenciales inválidas' })
+  @ApiResponse({ status: 409, description: 'El email ya está registrado' })
   async register(@Body() dto: RegisterDto): Promise<AuthResponseDto> {
     return this.registerUseCase.execute(dto);
   }

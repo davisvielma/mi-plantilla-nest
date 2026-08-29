@@ -34,14 +34,6 @@ import {
     UpdateUserRoleUseCase,
     SoftDeleteUserUseCase,
   ],
-  exports: [
-    USER_REPOSITORY,
-    CreateUserUseCase,
-    FindUserByIdUseCase,
-    ListUsersUseCase,
-    UpdateUserUseCase,
-    UpdateUserRoleUseCase,
-    SoftDeleteUserUseCase,
-  ],
+  exports: [USER_REPOSITORY],
 })
 export class UsersModule {}
