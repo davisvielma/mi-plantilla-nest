@@ -1,10 +1,11 @@
 import { UserEntity } from './../../../domain/entities';
 import { UserOrmEntity } from './../entities';
+import { UserResponseDto } from '../../../application/dtos/user-response.dto';
 
 /**
- * Mapper: Dominio ↔ Persistencia
+ * Mapper: Dominio ↔ Persistencia ↔ Respuesta
  *
- * Convierte entre entidades de dominio y entidades ORM.
+ * Convierte entre entidades de dominio, entidades ORM y DTOs de respuesta.
  * Métodos estáticos para facilitar el uso sin instanciación.
  */
 export class UserMapper {
@@ -44,5 +45,29 @@ export class UserMapper {
     entity.updatedAt = domainEntity.getUpdatedAt();
     entity.deletedAt = domainEntity.getDeletedAt();
     return entity;
+  }
+
+  /**
+   * Convierte una entidad de dominio a DTO de respuesta
+   *
+   * Excluye sensible data como password.
+   */
+  static toResponse(entity: UserEntity): UserResponseDto {
+    return {
+      id: entity.getId(),
+      email: entity.getEmail(),
+      fullName: entity.getFullName(),
+      roleId: entity.getRoleId(),
+      role: entity.getRole(),
+      createdAt: entity.getCreatedAt(),
+      updatedAt: entity.getUpdatedAt(),
+    };
+  }
+
+  /**
+   * Convierte un array de entidades de dominio a DTOs de respuesta
+   */
+  static toResponseList(entities: UserEntity[]): UserResponseDto[] {
+    return entities.map((entity) => this.toResponse(entity));
   }
 }

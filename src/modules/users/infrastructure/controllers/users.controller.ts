@@ -25,6 +25,7 @@ import {
   UpdateUserRoleDto,
   UserResponseDto,
 } from '../../application/dtos';
+import { UserMapper } from '../persistence/mappers';
 import {
   CreateUserUseCase,
   FindUserByIdUseCase,
@@ -68,17 +69,8 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
   @ApiResponse({ status: 409, description: 'El email ya está registrado' })
   async create(@Body() dto: CreateUserDto): Promise<UserResponseDto> {
-    const response = await this.createUserUseCase.execute(dto);
-
-    return {
-      id: response.getId(),
-      email: response.getEmail(),
-      fullName: response.getFullName(),
-      roleId: response.getRoleId(),
-      createdAt: response.getCreatedAt(),
-      updatedAt: response.getUpdatedAt(),
-      role: response.getRole(),
-    };
+    const user = await this.createUserUseCase.execute(dto);
+    return UserMapper.toResponse(user);
   }
 
   /**
@@ -93,17 +85,8 @@ export class UsersController {
     type: [UserResponseDto],
   })
   async findAll(): Promise<UserResponseDto[]> {
-    const response = await this.listUsersUseCase.execute();
-
-    return response.map((user) => ({
-      id: user.getId(),
-      email: user.getEmail(),
-      fullName: user.getFullName(),
-      roleId: user.getRoleId(),
-      createdAt: user.getCreatedAt(),
-      updatedAt: user.getUpdatedAt(),
-      role: user.getRole(),
-    }));
+    const users = await this.listUsersUseCase.execute();
+    return UserMapper.toResponseList(users);
   }
 
   /**
@@ -120,17 +103,8 @@ export class UsersController {
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<UserResponseDto> {
-    const response = await this.findUserByIdUseCase.execute(id);
-
-    return {
-      id: response.getId(),
-      email: response.getEmail(),
-      fullName: response.getFullName(),
-      roleId: response.getRoleId(),
-      createdAt: response.getCreatedAt(),
-      updatedAt: response.getUpdatedAt(),
-      role: response.getRole(),
-    };
+    const user = await this.findUserByIdUseCase.execute(id);
+    return UserMapper.toResponse(user);
   }
 
   /**
@@ -150,17 +124,8 @@ export class UsersController {
     @Body() dto: UpdateUserDto,
     @CurrentUser() user: JwtPayload,
   ): Promise<UserResponseDto> {
-    const response = await this.updateUserUseCase.execute(id, dto, user.sub);
-
-    return {
-      id: response.getId(),
-      email: response.getEmail(),
-      fullName: response.getFullName(),
-      roleId: response.getRoleId(),
-      createdAt: response.getCreatedAt(),
-      updatedAt: response.getUpdatedAt(),
-      role: response.getRole(),
-    };
+    const updatedUser = await this.updateUserUseCase.execute(id, dto, user.sub);
+    return UserMapper.toResponse(updatedUser);
   }
 
   /**
@@ -179,17 +144,8 @@ export class UsersController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateUserRoleDto,
   ): Promise<UserResponseDto> {
-    const response = await this.updateUserRoleUseCase.execute(id, dto);
-
-    return {
-      id: response.getId(),
-      email: response.getEmail(),
-      fullName: response.getFullName(),
-      roleId: response.getRoleId(),
-      createdAt: response.getCreatedAt(),
-      updatedAt: response.getUpdatedAt(),
-      role: response.getRole(),
-    };
+    const user = await this.updateUserRoleUseCase.execute(id, dto);
+    return UserMapper.toResponse(user);
   }
 
   /**
