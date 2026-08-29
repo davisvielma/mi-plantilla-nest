@@ -6,4 +6,4 @@ export * from './guards/roles.guard';
 export * from './interceptors/response.interceptor';
 export * from './interfaces';
 export * from './domain/base.entity';
-export * from './utlis';
+export * from './utils';

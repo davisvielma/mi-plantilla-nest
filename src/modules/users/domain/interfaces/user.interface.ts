@@ -18,11 +18,11 @@ export interface IUser {
 }
 
 /**
- * Interfaz para Crear Usuario
+ * Interfaz para Actualizar Usuario
  *
- * Define los campos necesarios para crear un nuevo usuario.
+ * Define los campos necesarios para actualizar un usuario.
  */
-export interface ICreateUser {
+export interface IUpdateUser {
   email: string;
   fullName: string;
   password: string;
@@ -31,9 +31,8 @@ export interface ICreateUser {
 /**
  * Interfaz para Crear Usuario Entity (interno)
  *
- * Extiende ICreateUser con el roleId para la entidad de dominio.
+ * Extiende IUpdateUser con el roleId para la entidad de dominio.
  */
-export interface ICreateUserEntity extends ICreateUser {
-  password: string;
+export interface ICreateUserEntity extends IUpdateUser {
   roleId: string;
 }
