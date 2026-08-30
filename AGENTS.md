@@ -127,3 +127,27 @@ Flat config (`eslint.config.mjs`). Notable rules:
 - Unit tests: `src/**/*.spec.ts` (Jest, `ts-jest`)
 - E2E tests: `test/**/*.e2e-spec.ts` (separate Jest config in `test/jest-e2e.json`)
 - E2E tests boot a full NestJS app — they require a running MySQL database
+
+## Installed Skills
+
+Skills installed locally for this project (in `.agents/skills/`):
+
+| Skill | Purpose | Source |
+|-------|---------|--------|
+| `tdd` | Test-driven development methodology | mattpocock/skills |
+| `nestjs-best-practices` | NestJS architecture patterns | kadajett/agent-nestjs-skills |
+
+### How to use
+
+When creating tests, follow both skill guidelines:
+
+**From `tdd`:**
+- Test at "seams" (public interfaces), not implementation details
+- One behavior per test, named as a claim: `creates_user_when_email_unique`
+- Arrange/Act/Assert structure
+- Vertical slices: one test → one implementation → repeat
+
+**From `nestjs-best-practices`:**
+- Use `Test.createTestingModule` for isolated tests
+- Mock repositories with SYMBOL tokens (`USER_REPOSITORY`, `ROLE_REPOSITORY`)
+- Never call real external services in unit tests

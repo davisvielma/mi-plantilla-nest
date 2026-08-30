@@ -47,8 +47,4 @@ export class PageOptionsDto {
   @IsOptional()
   @IsIn(['ASC', 'DESC'])
   order: 'ASC' | 'DESC' = 'DESC';
-
-  get skip(): number {
-    return (this.page - 1) * this.limit;
-  }
 }
