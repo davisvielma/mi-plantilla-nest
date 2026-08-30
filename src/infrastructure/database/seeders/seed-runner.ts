@@ -29,4 +29,4 @@ async function runSeeding() {
   }
 }
 
-runSeeding();
+void runSeeding();

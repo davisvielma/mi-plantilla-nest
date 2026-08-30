@@ -47,4 +47,4 @@ async function bootstrap() {
     `📚 La documentación de Swagger está disponible en: http://localhost:${port}/docs`,
   );
 }
-bootstrap();
+void bootstrap();
