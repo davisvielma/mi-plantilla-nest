@@ -1,98 +1,310 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+<div align="center">
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Plantilla NestJS con Arquitectura Hexagonal
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?style=flat-square&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js->=22-339933?style=flat-square&logo=node.js&logoColor=white)
+![License](https://img.shields.io/badge/License-UNLICENSED-ff69b4?style=flat-square)
 
-## Description
+Plantilla NestJS lista para produccion con arquitectura hexagonal, autenticacion JWT y MySQL.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Inicio Rapido](#inicio-rapido) &bull; [Arquitectura](#arquitectura) &bull; [API](#referencia-api) &bull; [Docker](#despliegue-con-docker)
 
-## Project setup
+</div>
 
-```bash
-$ yarn install
-```
+---
 
-## Compile and run the project
+## Descripcion
 
-```bash
-# development
-$ yarn run start
+Esta plantilla proporciona una base solida para construir aplicaciones backend escalables con NestJS. Implementa **arquitectura hexagonal** (puertos y adaptadores) para asegurar que la logica de negocio se mantenga independiente de las preocupaciones de infraestructura como bases de datos o frameworks.
 
-# watch mode
-$ yarn run start:dev
+### Caracteristicas Principales
 
-# production mode
-$ yarn run start:prod
-```
+- **Arquitectura Hexagonal** - Separacion limpia entre dominio, aplicacion e infraestructura
+- **Autenticacion JWT** - Flujo completo con access/refresh tokens y blacklist
+- **Control de Acceso por Roles** - Roles admin y usuario con proteccion de rutas
+- **TypeORM** - Entidades, migraciones y seeds de base de datos
+- **Swagger** - Documentacion auto-generada en `/api/docs`
+- **Docker** - Multi-stage build para produccion
+- **Testing** - 129 pruebas unitarias con Jest
 
-## Run tests
+## Inicio Rapido
+
+### Requisitos Previos
+
+- [Node.js](https://nodejs.org/) >= 22
+- [Yarn](https://yarnpkg.com/) como gestor de paquetes
+- [Docker](https://www.docker.com/) (opcional, para la base de datos)
+
+### Instalacion
 
 ```bash
-# unit tests
-$ yarn run test
+# Clonar el repositorio
+git clone <tu-url-del-repositorio>
+cd mi-plantilla-nest
 
-# e2e tests
-$ yarn run test:e2e
+# Instalar dependencias
+yarn install
 
-# test coverage
-$ yarn run test:cov
+# Copiar variables de entorno
+cp .env.template .env
+
+# Iniciar base de datos MySQL
+docker compose up -d mysql
+
+# Ejecutar migraciones y seeders
+yarn setup
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Iniciar Servidor de Desarrollo
 
 ```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
+yarn start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+La API estara disponible en `http://localhost:3000/api` y la documentacion de Swagger en `http://localhost:3000/api/docs`.
 
-## Resources
+## Arquitectura
 
-Check out a few resources that may come in handy when working with NestJS:
+Esta plantilla sigue los principios de **arquitectura hexagonal**, organizando el codigo por funcionalidades en lugar de capas tecnicas.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Estructura del Proyecto
 
-## Support
+```
+src/
+  main.ts                          # Punto de entrada
+  app/
+    app.module.ts                   # Modulo raiz
+  modules/
+    auth/                           # Modulo de autenticacion
+      domain/
+        repositories/               # Interfaces (puertos)
+      application/
+        dtos/                       # Data Transfer Objects
+        use-cases/                  # Casos de uso
+      infrastructure/
+        controllers/                # Adaptadores HTTP
+        persistence/
+          entities/                 # Entidades TypeORM
+          repositories/             # Implementaciones (adaptadores)
+          mappers/                  # Mappers dominio <-> persistencia
+        modules/                    # Configuracion del modulo NestJS
+        strategies/                 # Estrategias Passport (JWT)
+    users/                          # Modulo de usuarios
+      (misma estructura que auth)
+    shared/                         # Modulo compartido
+      decorators/                   # Decoradores personalizados
+      guards/                       # Guards (JWT, Roles)
+      dto/                          # DTOs compartidos
+      interfaces/                   # Interfaces comunes
+      constants/                    # Constantes
+      utils/                        # Utilidades
+  infrastructure/
+    database/
+      migrations/                   # Migraciones de TypeORM
+      seeders/                      # Seeds de datos iniciales
+      data-source.ts                # Configuracion de TypeORM
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Modulos Actuales
 
-## Stay in touch
+| Modulo | Descripcion |
+|--------|-------------|
+| `auth` | Login, registro, refresh token, logout |
+| `users` | CRUD de usuarios con paginacion y filtros |
+| `shared` | Guards, decoradores, DTOs, utilidades |
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Principios de Diseno
+
+- **Logica de negocio en capa de dominio** - Entidades y casos de uso sin dependencias del framework
+- **Inversion de dependencias** - El dominio define interfaces, la infraestructura las implementa
+- **Casos de uso como puntos de entrada** - Cada operacion de negocio es una clase de caso de uso separada
+- **Guards globales** - JWT y roles guards aplicados globalmente, con decorador `@Public()` para excepciones
+
+### Como Crear un Nuevo Modulo
+
+1. Crear la carpeta del modulo en `src/modules/<nombre>/`
+2. Implementar las capas: `domain/`, `application/`, `infrastructure/`
+3. Definir interfaces en `domain/repositories/`
+4. Crear casos de uso en `application/use-cases/`
+5. Implementar controladores y repositorios en `infrastructure/`
+6. Registrar el modulo en `app.module.ts`
+
+## Variables de Entorno
+
+Copia `.env.template` a `.env` y configura:
+
+| Variable | Descripcion | Por Defecto |
+|----------|-------------|-------------|
+| `NODE_ENV` | Entorno de ejecucion | `development` |
+| `PORT` | Puerto del servidor | `3000` |
+| `API_PREFIX` | Prefijo de URL | `api` |
+| `DB_HOST` | Host de la base de datos | `localhost` |
+| `DB_PORT` | Puerto de la base de datos | `3306` |
+| `DB_USERNAME` | Usuario de la base de datos | - |
+| `DB_PASSWORD` | Contrasena de la base de datos | - |
+| `DB_DATABASE` | Nombre de la base de datos | - |
+| `JWT_SECRET` | Secreto para firmar JWT | - |
+| `JWT_EXPIRES_IN` | Tiempo de expiracion del access token | `1d` |
+| `JWT_REFRESH_SECRET` | Secreto para refresh token | - |
+| `JWT_REFRESH_EXPIRES_IN` | Tiempo de expiracion del refresh token | `7d` |
+| `ADMIN_EMAIL` | Email del usuario administrador | - |
+| `ADMIN_PASSWORD` | Contrasena del usuario administrador | - |
+| `CORS_ORIGIN` | Origen permitido por CORS | `http://localhost:4200` |
+
+## Referencia API
+
+### Autenticacion
+
+| Metodo | Endpoint | Descripcion | Auth |
+|--------|----------|-------------|------|
+| `POST` | `/api/auth/register` | Registrar nuevo usuario | No |
+| `POST` | `/api/auth/login` | Iniciar sesion | No |
+| `POST` | `/api/auth/refresh` | Refrescar tokens | No |
+| `POST` | `/api/auth/logout` | Cerrar sesion (blacklist token) | Si |
+
+### Usuarios
+
+| Metodo | Endpoint | Descripcion | Auth |
+|--------|----------|-------------|------|
+| `GET` | `/api/users` | Listar usuarios (paginado) | Admin |
+| `GET` | `/api/users/:id` | Obtener usuario por ID | Si |
+| `POST` | `/api/users` | Crear usuario | Admin |
+| `PATCH` | `/api/users/:id` | Actualizar perfil | Si |
+| `PATCH` | `/api/users/:id/role` | Actualizar rol de usuario | Admin |
+| `DELETE` | `/api/users/:id` | Eliminar usuario (soft delete) | Admin |
+
+### Parametros de Consulta (GET /api/users)
+
+| Parametro | Tipo | Descripcion |
+|-----------|------|-------------|
+| `page` | number | Numero de pagina |
+| `limit` | number | Elementos por pagina |
+| `sort` | string | Campo de ordenamiento |
+| `order` | string | Direccion del ordenamiento (ASC/DESC) |
+| `email` | string | Filtrar por email |
+| `roleId` | string | Filtrar por ID de rol |
+| `fullName` | string | Filtrar por nombre |
+
+### Flujo de Autenticacion
+
+```
+1. Registro/Login -> Retorna access token + refresh token
+2. Peticiones autenticadas -> Header: Authorization: Bearer <token>
+3. Token expirado -> POST /api/auth/refresh con refresh token
+4. Logout -> Blacklist del access token
+```
+
+## Despliegue con Docker
+
+### Build de Produccion
+
+```bash
+# Construir e iniciar todos los servicios
+docker compose up -d
+
+# O reconstruir despues de cambios
+docker compose up -d --build
+```
+
+### Servicios
+
+| Servicio | Puerto | Descripcion |
+|----------|--------|-------------|
+| `app` | 3000 | Aplicacion NestJS |
+| `mysql` | 3306 | Base de datos MySQL 8 |
+
+### Ver Logs
+
+```bash
+# Todos los servicios
+docker compose logs -f
+
+# Servicio especifico
+docker compose logs -f app
+```
+
+### Detener Servicios
+
+```bash
+docker compose down
+
+# Con volumenes
+docker compose down -v
+```
+
+## Comandos Disponibles
+
+### Desarrollo
+
+| Comando | Descripcion |
+|---------|-------------|
+| `yarn start:dev` | Iniciar con modo watch |
+| `yarn start:debug` | Iniciar con modo debug |
+| `yarn build` | Compilar para produccion |
+| `yarn start:prod` | Ejecutar build de produccion |
+
+### Calidad de Codigo
+
+| Comando | Descripcion |
+|---------|-------------|
+| `yarn lint` | Ejecutar ESLint con auto-fix |
+| `yarn format` | Formatear codigo con Prettier |
+
+### Testing
+
+| Comando | Descripcion |
+|---------|-------------|
+| `yarn test` | Ejecutar pruebas unitarias |
+| `yarn test:cov` | Ejecutar pruebas con cobertura |
+| `yarn test:e2e` | Ejecutar pruebas end-to-end |
+
+### Base de Datos
+
+| Comando | Descripcion |
+|---------|-------------|
+| `yarn setup` | Ejecutar migraciones + seeders |
+| `yarn migration:generate <nombre>` | Generar migracion desde diff |
+| `yarn migration:run` | Aplicar migraciones pendientes |
+| `yarn migration:revert` | Revertir ultima migracion |
+| `yarn seed:run` | Ejecutar seeders |
+| `yarn seed:reset` | Resetear DB (drop + migrate + seed) |
+
+## Aliases de Rutas
+
+Esta plantilla usa `@/` como alias de ruta para `src/`:
+
+```typescript
+// En lugar de
+import { UserRepository } from '../../../infrastructure/persistence/repositories/user.repository';
+
+// Usar
+import { UserRepository } from '@/modules/users/infrastructure/persistence/repositories/user.repository';
+```
+
+## Solucion de Problemas
+
+### Errores de Base de Datos
+
+Si la base de datos no conecta, verifica que MySQL este corriendo:
+
+```bash
+docker compose ps
+```
+
+### Errores de Migraciones
+
+Si las migraciones fallan, intenta resetear la base de datos:
+
+```bash
+yarn seed:reset
+```
+
+### Puerto en Uso
+
+Si el puerto 3000 esta ocupado, cambia la variable `PORT` en tu archivo `.env`.
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Este proyecto es UNLICENSED. Ver el archivo [LICENSE](LICENSE) para mas detalles.
