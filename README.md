@@ -137,7 +137,7 @@ Copia `.env.template` a `.env` y configura:
 
 | Variable | Descripcion | Por Defecto |
 |----------|-------------|-------------|
-| `NODE_ENV` | Entorno de ejecucion | `development` |
+| `STAGE` | Entorno de ejecucion | `dev` |
 | `PORT` | Puerto del servidor | `3000` |
 | `API_PREFIX` | Prefijo de URL | `api` |
 | `DB_HOST` | Host de la base de datos | `localhost` |

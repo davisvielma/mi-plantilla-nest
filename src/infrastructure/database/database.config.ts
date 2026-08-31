@@ -15,8 +15,6 @@ import { TokenBlacklistOrmEntity } from '@/modules/auth/infrastructure/persisten
 export const getDatabaseConfig = (
   env: Record<string, string | undefined>,
 ): DataSourceOptions => {
-  const isNeon = env.DB_HOST?.includes('neon.tech') ?? false;
-
   return {
     type: 'postgres',
     host: env.DB_HOST || 'localhost',
@@ -26,12 +24,12 @@ export const getDatabaseConfig = (
     database: env.DB_DATABASE || 'mi_proyecto_db',
 
     // NeonDB requiere SSL
-    ssl: isNeon ? { rejectUnauthorized: false } : false,
+    ssl: process.env.STAGE === 'prod' ? true : false,
 
     entities: [UserOrmEntity, RoleOrmEntity, TokenBlacklistOrmEntity],
 
     synchronize: false,
-    logging: env.NODE_ENV === 'development',
+    logging: env.STAGE === 'dev',
   };
 };
 

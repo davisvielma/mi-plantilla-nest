@@ -20,7 +20,7 @@ import { getDatabaseConfig } from './database.config';
           DB_USERNAME: config.get<string>('DB_USERNAME'),
           DB_PASSWORD: config.get<string>('DB_PASSWORD'),
           DB_DATABASE: config.get<string>('DB_DATABASE'),
-          NODE_ENV: config.get<string>('NODE_ENV'),
+          STAGE: config.get<string>('STAGE'),
         };
 
         return getDatabaseConfig(env);

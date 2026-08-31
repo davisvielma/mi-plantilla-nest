@@ -20,7 +20,7 @@ export class MainSeeder implements Seeder {
     await new UsersSeeder().run(dataSource);
 
     // 2. Si estamos en desarrollo, ejecutar seeders de prueba
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.STAGE === 'dev') {
       console.log('🧪 Ejecutando seeders de desarrollo...');
       // Aquí irían seeders de prueba (productos, categorías, etc.)
       // await new ProductsSeeder().run(dataSource, factoryManager);

@@ -82,7 +82,7 @@ yarn migration:show
 - **DB**: `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE`
 - **JWT**: `JWT_SECRET`, `JWT_EXPIRES_IN`, `JWT_REFRESH_SECRET`, `JWT_REFRESH_EXPIRES_IN`
 - **Seed**: `ADMIN_EMAIL`, `ADMIN_PASSWORD` (used by `UsersSeeder`)
-- **App**: `NODE_ENV`, `PORT`, `API_PREFIX`, `CORS_ORIGIN`
+- **App**: `STAGE`, `PORT`, `API_PREFIX`, `CORS_ORIGIN`
 
 ## Comment Format
 

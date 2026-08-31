@@ -44,7 +44,7 @@ async function bootstrap() {
     `🚀 La aplicación se está ejecutando en: http://localhost:${port}/${globalPrefix}`,
   );
   logger.log(
-    `📚 La documentación de Swagger está disponible en: http://localhost:${port}/docs`,
+    `📚 La documentación de Swagger está disponible en: http://localhost:${port}/${globalPrefix}/docs`,
   );
 }
 void bootstrap();
