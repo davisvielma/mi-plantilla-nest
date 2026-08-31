@@ -8,22 +8,22 @@ import {
 
 @Entity({ name: 'token_blacklist' })
 export class TokenBlacklistOrmEntity {
-  @PrimaryColumn({ type: 'char', length: 36 })
+  @PrimaryColumn({ type: 'uuid' })
   id!: string;
 
   @Column({ type: 'text', nullable: false })
   @Index()
   token!: string;
 
-  @Column({ type: 'char', length: 36, nullable: false })
+  @Column({ type: 'uuid', nullable: false })
   userId!: string;
 
   @Column({ type: 'varchar', length: 20, nullable: false })
   type!: 'access' | 'refresh';
 
-  @Column({ type: 'datetime', nullable: false })
+  @Column({ type: 'timestamptz', nullable: false })
   expiresAt!: Date;
 
-  @CreateDateColumn({ name: 'createdAt', type: 'datetime', nullable: false })
+  @CreateDateColumn({ name: 'createdAt', type: 'timestamptz', nullable: false })
   createdAt!: Date;
 }

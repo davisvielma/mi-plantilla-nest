@@ -2,7 +2,7 @@
 
 ## Setup
 
-1. `docker-compose up -d` — starts MySQL 8 on port 3306
+1. `docker-compose up -d` — starts PostgreSQL 16 on port 5432
 2. `cp .env.template .env` — configure DB credentials and JWT secrets
 3. `yarn install`
 4. `yarn setup` — runs `migration:run` + `seed:run` in one step
@@ -45,7 +45,6 @@ modules/
     domain/          # entities, interfaces, repositories, value-objects
     application/     # dtos, use-cases
     infrastructure/  # controllers, persistence (entities, mappers, repos), modules
-    index.ts         # barrel exports
 ```
 
 Current modules: `users`, `auth`, `shared`.
@@ -60,7 +59,7 @@ Global prefix: `/api`. Swagger docs: `/api/docs`.
 
 ## Database
 
-- **Engine**: MySQL 8 via TypeORM
+- **Engine**: PostgreSQL 16 via TypeORM
 - **Entities registered** in both `DatabaseModule` (app runtime) and `data-source.ts` (CLI/migrations)
 - **Migrations**: `src/infrastructure/database/migrations/`
 - **Seeds**: `src/infrastructure/database/seeders/` — `MainSeeder` orchestrates `RolesSeeder` → `UsersSeeder`
@@ -75,7 +74,7 @@ yarn migration:revert
 yarn migration:show
 ```
 
-`migration:generate` requires a running MySQL instance and uses `data-source.ts`.
+`migration:generate` requires a running PostgreSQL instance and uses `data-source.ts`.
 
 ## Environment
 
@@ -126,7 +125,7 @@ Flat config (`eslint.config.mjs`). Notable rules:
 
 - Unit tests: `src/**/*.spec.ts` (Jest, `ts-jest`)
 - E2E tests: `test/**/*.e2e-spec.ts` (separate Jest config in `test/jest-e2e.json`)
-- E2E tests boot a full NestJS app — they require a running MySQL database
+- E2E tests boot a full NestJS app — they require a running PostgreSQL database
 
 ## Installed Skills
 

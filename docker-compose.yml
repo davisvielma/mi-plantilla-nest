@@ -6,15 +6,15 @@ services:
     ports:
       - '3000:3000'
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
     environment:
       - NODE_ENV=production
       - PORT=3000
       - API_PREFIX=api
       - CORS_ORIGIN=http://localhost:3000
-      - DB_HOST=mysql
-      - DB_PORT=3306
+      - DB_HOST=postgres
+      - DB_PORT=5432
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
@@ -27,28 +27,27 @@ services:
     networks:
       - mi-proyecto-network
 
-  mysql:
-    image: mysql:8.0
-    container_name: mi-proyecto-mysql
+  postgres:
+    image: postgres:16
+    container_name: mi-proyecto-postgres
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_USER=${DB_USERNAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - mi-proyecto-network
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}']
       timeout: 20s
       retries: 10
 
 volumes:
-  mysql_data:
+  postgres_data:
     driver: local
 
 networks:

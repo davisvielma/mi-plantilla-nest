@@ -1,34 +1,30 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import {
-  UserOrmEntity,
-  RoleOrmEntity,
-} from '@/modules/users/infrastructure/persistence/entities';
-import { TokenBlacklistOrmEntity } from '@/modules/auth/infrastructure/persistence/entities';
+import { getDatabaseConfig } from './database.config';
 
 /**
- * Módulo de Base de Datos
+ * Modulo de Base de Datos
  *
- * Configura la conexión a TypeORM para la aplicación NestJS.
- * Este módulo es separado de data-source.ts (que se usa para CLI/migraciones).
+ * Configura la conexion a TypeORM para la aplicacion NestJS.
+ * Usa la configuracion compartida de database.config.ts.
  */
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
-        type: 'mysql' as const,
-        host: config.get<string>('DB_HOST', 'localhost'),
-        port: config.get<number>('DB_PORT', 3306),
-        username: config.get<string>('DB_USERNAME', 'root'),
-        password: config.get<string>('DB_PASSWORD', 'rootpassword'),
-        database: config.get<string>('DB_DATABASE', 'mi_proyecto_db'),
-        entities: [UserOrmEntity, RoleOrmEntity, TokenBlacklistOrmEntity],
-        synchronize: false,
-        logging: config.get<string>('NODE_ENV') === 'development',
-        timezone: 'Z',
-      }),
+      useFactory: (config: ConfigService) => {
+        const env = {
+          DB_HOST: config.get<string>('DB_HOST'),
+          DB_PORT: config.get<string>('DB_PORT'),
+          DB_USERNAME: config.get<string>('DB_USERNAME'),
+          DB_PASSWORD: config.get<string>('DB_PASSWORD'),
+          DB_DATABASE: config.get<string>('DB_DATABASE'),
+          NODE_ENV: config.get<string>('NODE_ENV'),
+        };
+
+        return getDatabaseConfig(env);
+      },
       inject: [ConfigService],
     }),
   ],

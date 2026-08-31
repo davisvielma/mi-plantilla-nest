@@ -13,7 +13,7 @@ import { RoleOrmEntity } from '.';
 
 @Entity({ name: 'users' })
 export class UserOrmEntity {
-  @PrimaryColumn({ type: 'char', length: 36 })
+  @PrimaryColumn({ type: 'uuid' })
   id!: string;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
@@ -26,8 +26,7 @@ export class UserOrmEntity {
   password!: string;
 
   @Column({
-    type: 'char',
-    length: 36,
+    type: 'uuid',
     nullable: false,
   })
   roleId!: string;
@@ -36,13 +35,13 @@ export class UserOrmEntity {
   @JoinColumn({ name: 'roleId' })
   role?: RoleOrmEntity;
 
-  @CreateDateColumn({ name: 'createdAt', type: 'datetime', nullable: false })
+  @CreateDateColumn({ name: 'createdAt', type: 'timestamptz', nullable: false })
   createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updatedAt', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'updatedAt', type: 'timestamptz', nullable: true })
   updatedAt?: Date;
 
-  @Column({ name: 'deletedAt', type: 'datetime', nullable: true })
+  @Column({ name: 'deletedAt', type: 'timestamptz', nullable: true })
   deletedAt?: Date;
 
   @BeforeInsert()

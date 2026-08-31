@@ -7,7 +7,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js->=22-339933?style=flat-square&logo=node.js&logoColor=white)
 ![License](https://img.shields.io/badge/License-UNLICENSED-ff69b4?style=flat-square)
 
-Plantilla NestJS lista para produccion con arquitectura hexagonal, autenticacion JWT y MySQL.
+Plantilla NestJS lista para produccion con arquitectura hexagonal, autenticacion JWT y PostgreSQL.
 
 [Inicio Rapido](#inicio-rapido) &bull; [Arquitectura](#arquitectura) &bull; [API](#referencia-api) &bull; [Docker](#despliegue-con-docker)
 
@@ -50,8 +50,8 @@ yarn install
 # Copiar variables de entorno
 cp .env.template .env
 
-# Iniciar base de datos MySQL
-docker compose up -d mysql
+# Iniciar base de datos PostgreSQL
+docker compose up -d postgres
 
 # Ejecutar migraciones y seeders
 yarn setup
@@ -141,7 +141,7 @@ Copia `.env.template` a `.env` y configura:
 | `PORT` | Puerto del servidor | `3000` |
 | `API_PREFIX` | Prefijo de URL | `api` |
 | `DB_HOST` | Host de la base de datos | `localhost` |
-| `DB_PORT` | Puerto de la base de datos | `3306` |
+| `DB_PORT` | Puerto de la base de datos | `5432` |
 | `DB_USERNAME` | Usuario de la base de datos | - |
 | `DB_PASSWORD` | Contrasena de la base de datos | - |
 | `DB_DATABASE` | Nombre de la base de datos | - |
@@ -213,7 +213,7 @@ docker compose up -d --build
 | Servicio | Puerto | Descripcion |
 |----------|--------|-------------|
 | `app` | 3000 | Aplicacion NestJS |
-| `mysql` | 3306 | Base de datos MySQL 8 |
+| `postgres` | 5432 | PostgreSQL 16 |
 
 ### Ver Logs
 
@@ -287,7 +287,7 @@ import { UserRepository } from '@/modules/users/infrastructure/persistence/repos
 
 ### Errores de Base de Datos
 
-Si la base de datos no conecta, verifica que MySQL este corriendo:
+Si la base de datos no conecta, verifica que PostgreSQL este corriendo:
 
 ```bash
 docker compose ps
