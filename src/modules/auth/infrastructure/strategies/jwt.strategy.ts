@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { Inject } from '@nestjs/common';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Request } from 'express';
 import {
   USER_REPOSITORY,
   type IUserRepository,
@@ -33,6 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: config.get<string>('JWT_SECRET', 'jwt-secret'),
+      passReqToCallback: true,
     });
   }
 
@@ -42,10 +44,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * Este método se ejecuta después de verificar la firma del token.
    * Retorna el usuario que se adjuntará al request.
    */
-  async validate(payload: JwtPayload, ...args: any[]): Promise<JwtPayload> {
+  async validate(req: Request, payload: JwtPayload): Promise<JwtPayload> {
     // Obtener el token raw del request
-    const request = args[0];
-    const authHeader = request?.headers?.authorization;
+    const authHeader = req.get('authorization');
     const token = authHeader?.split(' ')[1];
 
     // Verificar si el token está en la blacklist

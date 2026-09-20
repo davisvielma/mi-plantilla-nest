@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 import { JwtStrategy } from './jwt.strategy';
 import { USER_REPOSITORY } from '@/modules/users/domain/repositories';
 import { TOKEN_BLACKLIST_REPOSITORY } from '../../domain/repositories';
@@ -27,11 +28,12 @@ describe('JwtStrategy', () => {
     getDeletedAt: () => undefined,
   } as unknown as UserEntity;
 
-  const createMockRequest = (authHeader?: string) => ({
-    headers: {
-      authorization: authHeader,
-    },
-  });
+  const createMockRequest = (authHeader?: string): Request =>
+    ({
+      get: jest.fn((field: string) =>
+        field.toLowerCase() === 'authorization' ? authHeader : undefined,
+      ),
+    }) as unknown as Request;
 
   const mockUserRepository = {
     existsByEmail: jest.fn(),
@@ -82,7 +84,7 @@ describe('JwtStrategy', () => {
       mockUserRepository.findById.mockResolvedValue(mockUserEntity);
 
       // Act
-      const result = await strategy.validate(mockPayload, request);
+      const result = await strategy.validate(request, mockPayload);
 
       // Assert
       expect(result).toEqual({
@@ -103,7 +105,7 @@ describe('JwtStrategy', () => {
       mockBlacklistRepository.isBlacklisted.mockResolvedValue(true);
 
       // Act & Assert
-      await expect(strategy.validate(mockPayload, request)).rejects.toThrow(
+      await expect(strategy.validate(request, mockPayload)).rejects.toThrow(
         UnauthorizedException,
       );
       expect(mockBlacklistRepository.isBlacklisted).toHaveBeenCalledWith(
@@ -119,7 +121,7 @@ describe('JwtStrategy', () => {
       mockUserRepository.findById.mockResolvedValue(null);
 
       // Act & Assert
-      await expect(strategy.validate(mockPayload, request)).rejects.toThrow(
+      await expect(strategy.validate(request, mockPayload)).rejects.toThrow(
         UnauthorizedException,
       );
       expect(mockUserRepository.findById).toHaveBeenCalledWith('user-uuid-123');
@@ -136,7 +138,7 @@ describe('JwtStrategy', () => {
       mockUserRepository.findById.mockResolvedValue(deletedUserEntity);
 
       // Act & Assert
-      await expect(strategy.validate(mockPayload, request)).rejects.toThrow(
+      await expect(strategy.validate(request, mockPayload)).rejects.toThrow(
         UnauthorizedException,
       );
     });
@@ -148,7 +150,7 @@ describe('JwtStrategy', () => {
       mockUserRepository.findById.mockResolvedValue(mockUserEntity);
 
       // Act
-      const result = await strategy.validate(mockPayload, request);
+      const result = await strategy.validate(request, mockPayload);
 
       // Assert
       expect(result).toBeDefined();
