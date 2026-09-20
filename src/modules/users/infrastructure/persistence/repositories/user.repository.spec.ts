@@ -49,6 +49,7 @@ describe('UserRepository', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   describe('findById', () => {
@@ -139,6 +140,9 @@ describe('UserRepository', () => {
   describe('softDelete', () => {
     it('marks user as deleted', async () => {
       // Arrange
+      const now = new Date('2024-01-01T10:00:00Z');
+      jest.useFakeTimers();
+      jest.setSystemTime(now);
       mockTypeOrmRepository.update.mockResolvedValue({ affected: 1 });
 
       // Act
@@ -147,7 +151,7 @@ describe('UserRepository', () => {
       // Assert
       expect(mockTypeOrmRepository.update).toHaveBeenCalledWith(
         { id: 'user-uuid-123', deletedAt: IsNull() },
-        { deletedAt: new Date() },
+        { deletedAt: now },
       );
     });
   });
