@@ -6,7 +6,12 @@ import {
   LogoutUseCase,
   RegisterUseCase,
 } from '../../application/use-cases';
-import { LoginDto, RegisterDto, RefreshTokenDto } from '../../application/dtos';
+import {
+  LoginDto,
+  RegisterDto,
+  RefreshTokenDto,
+  LogoutDto,
+} from '../../application/dtos';
 import { Request } from 'express';
 
 describe('AuthController', () => {
@@ -138,15 +143,16 @@ describe('AuthController', () => {
       const request = {
         headers: { authorization: 'Bearer valid-token' },
       } as unknown as Request;
+      const dto: LogoutDto = { refreshToken: 'valid-refresh-token' };
       const expectedResponse = { message: 'Sesión cerrada exitosamente' };
       mockLogoutUseCase.execute.mockResolvedValue(expectedResponse);
 
       // Act
-      const result = await controller.logout(request);
+      const result = await controller.logout(request, dto);
 
       // Assert
       expect(result).toEqual(expectedResponse);
-      expect(mockLogoutUseCase.execute).toHaveBeenCalledWith(request);
+      expect(mockLogoutUseCase.execute).toHaveBeenCalledWith(request, dto);
     });
   });
 });

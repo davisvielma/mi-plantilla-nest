@@ -7,17 +7,13 @@ import {
   Req,
 } from '@nestjs/common';
 import type { Request } from 'express';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
   LoginDto,
   RefreshTokenDto,
   AuthResponseDto,
   RegisterDto,
+  LogoutDto,
 } from '../../application/dtos';
 import {
   LoginUseCase,
@@ -86,14 +82,18 @@ export class AuthController {
   }
 
   @Post('logout')
-  @ApiBearerAuth()
+  @Public()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Cerrar sesión' })
   @ApiResponse({
     status: 200,
-    description: 'Sesión cerrada exitosamente',
+    description: 'Sesión cerrada exitosamente. Logout idempotente (RFC 7009)',
   })
-  async logout(@Req() request: Request): Promise<{ message: string }> {
-    return this.logoutUseCase.execute(request);
+  @ApiResponse({ status: 401, description: 'Token no proporcionado' })
+  async logout(
+    @Req() request: Request,
+    @Body() dto: LogoutDto,
+  ): Promise<{ message: string }> {
+    return this.logoutUseCase.execute(request, dto);
   }
 }

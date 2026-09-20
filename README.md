@@ -162,7 +162,7 @@ Copia `.env.template` a `.env` y configura:
 | `POST` | `/api/auth/register` | Registrar nuevo usuario | No |
 | `POST` | `/api/auth/login` | Iniciar sesion | No |
 | `POST` | `/api/auth/refresh` | Refrescar tokens | No |
-| `POST` | `/api/auth/logout` | Cerrar sesion (blacklist token) | Si |
+| `POST` | `/api/auth/logout` | Cerrar sesion (blacklist access + refresh opcional, idempotente) | Bearer |
 
 ### Usuarios
 
