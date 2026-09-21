@@ -10,6 +10,7 @@ import {
   RefreshTokenUseCase,
   RegisterUseCase,
   LogoutUseCase,
+  GetCurrentUserUseCase,
 } from '../../application/use-cases';
 import { JwtStrategy } from '../strategies/jwt.strategy';
 import { TOKEN_BLACKLIST_REPOSITORY } from '../../domain/repositories';
@@ -49,6 +50,7 @@ import type { StringValue } from 'ms';
     RegisterUseCase,
     RefreshTokenUseCase,
     LogoutUseCase,
+    GetCurrentUserUseCase,
     JwtStrategy,
   ],
   exports: [JwtModule],

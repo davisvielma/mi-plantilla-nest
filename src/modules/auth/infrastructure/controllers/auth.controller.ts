@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Post,
   Body,
   HttpCode,
@@ -7,7 +8,12 @@ import {
   Req,
 } from '@nestjs/common';
 import type { Request } from 'express';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import {
   LoginDto,
   RefreshTokenDto,
@@ -16,12 +22,15 @@ import {
   LogoutDto,
 } from '../../application/dtos';
 import {
+  GetCurrentUserUseCase,
   LoginUseCase,
   RefreshTokenUseCase,
   LogoutUseCase,
   RegisterUseCase,
 } from '../../application/use-cases';
-import { Public } from '@/modules/shared/decorators';
+import { Public, CurrentUser } from '@/modules/shared/decorators';
+import { type JwtPayload } from '@/modules/shared/interfaces';
+import { UserResponseDto } from '@/modules/users/application/dtos';
 
 /**
  * Controller de Autenticación
@@ -30,6 +39,7 @@ import { Public } from '@/modules/shared/decorators';
  * Endpoints para login, refresh token y logout.
  */
 @ApiTags('Auth')
+@ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -37,7 +47,20 @@ export class AuthController {
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly logoutUseCase: LogoutUseCase,
     private readonly registerUseCase: RegisterUseCase,
+    private readonly getCurrentUserUseCase: GetCurrentUserUseCase,
   ) {}
+
+  @Get('me')
+  @ApiOperation({ summary: 'Obtener perfil del usuario autenticado' })
+  @ApiResponse({
+    status: 200,
+    description: 'Perfil del usuario obtenido exitosamente',
+    type: UserResponseDto,
+  })
+  @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
+  async getMe(@CurrentUser() user: JwtPayload): Promise<UserResponseDto> {
+    return this.getCurrentUserUseCase.execute(user.sub);
+  }
 
   @Post('login')
   @Public()

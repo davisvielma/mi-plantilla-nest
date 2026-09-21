@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import {
+  GetCurrentUserUseCase,
   LoginUseCase,
   RefreshTokenUseCase,
   LogoutUseCase,
@@ -16,6 +17,15 @@ import { Request } from 'express';
 
 describe('AuthController', () => {
   let controller: AuthController;
+
+  const mockUserId = 'user-uuid-123';
+
+  const mockJwtPayload = {
+    sub: mockUserId,
+    email: 'test@example.com',
+    fullName: 'Test User',
+    role: { id: 'role-uuid-456', name: 'admin' },
+  };
 
   const mockLoginUseCase = {
     execute: jest.fn(),
@@ -33,6 +43,10 @@ describe('AuthController', () => {
     execute: jest.fn(),
   };
 
+  const mockGetCurrentUserUseCase = {
+    execute: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
@@ -41,6 +55,7 @@ describe('AuthController', () => {
         { provide: RefreshTokenUseCase, useValue: mockRefreshTokenUseCase },
         { provide: LogoutUseCase, useValue: mockLogoutUseCase },
         { provide: RegisterUseCase, useValue: mockRegisterUseCase },
+        { provide: GetCurrentUserUseCase, useValue: mockGetCurrentUserUseCase },
       ],
     }).compile();
 
@@ -153,6 +168,31 @@ describe('AuthController', () => {
       // Assert
       expect(result).toEqual(expectedResponse);
       expect(mockLogoutUseCase.execute).toHaveBeenCalledWith(request, dto);
+    });
+  });
+
+  describe('getMe', () => {
+    it('returns the profile of the authenticated user', async () => {
+      // Arrange
+      const expectedResponse = {
+        id: mockUserId,
+        email: 'test@example.com',
+        fullName: 'Test User',
+        roleId: 'role-uuid-456',
+        role: { id: 'role-uuid-456', name: 'admin' },
+        createdAt: new Date(),
+        updatedAt: undefined,
+      };
+      mockGetCurrentUserUseCase.execute.mockResolvedValue(expectedResponse);
+
+      // Act
+      const result = await controller.getMe(mockJwtPayload);
+
+      // Assert
+      expect(result).toEqual(expectedResponse);
+      expect(mockGetCurrentUserUseCase.execute).toHaveBeenCalledWith(
+        mockJwtPayload.sub,
+      );
     });
   });
 });

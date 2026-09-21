@@ -23,6 +23,7 @@ Esta plantilla proporciona una base solida para construir aplicaciones backend e
 
 - **Arquitectura Hexagonal** - Separacion limpia entre dominio, aplicacion e infraestructura
 - **Autenticacion JWT** - Flujo completo con access/refresh tokens y blacklist
+- **Perfil del usuario actual** - Endpoint `GET /auth/me` para restaurar la sesion al recargar la pagina
 - **Control de Acceso por Roles** - Roles admin y usuario con proteccion de rutas
 - **TypeORM** - Entidades, migraciones y seeds de base de datos
 - **Swagger** - Documentacion auto-generada en `/api/docs`
@@ -111,7 +112,7 @@ src/
 
 | Modulo | Descripcion |
 |--------|-------------|
-| `auth` | Login, registro, refresh token, logout |
+| `auth` | Login, registro, refresh token, logout, perfil del usuario autenticado |
 | `users` | CRUD de usuarios con paginacion y filtros |
 | `shared` | Guards, decoradores, DTOs, utilidades |
 
@@ -163,6 +164,7 @@ Copia `.env.template` a `.env` y configura:
 | `POST` | `/api/auth/login` | Iniciar sesion | No |
 | `POST` | `/api/auth/refresh` | Refrescar tokens | No |
 | `POST` | `/api/auth/logout` | Cerrar sesion (blacklist access + refresh opcional, idempotente) | Bearer |
+| `GET` | `/api/auth/me` | Obtener perfil actualizado del usuario autenticado | Bearer |
 
 ### Usuarios
 
@@ -195,6 +197,9 @@ Copia `.env.template` a `.env` y configura:
 3. Token expirado -> POST /api/auth/refresh con refresh token
 4. Logout -> Blacklist del access token
 ```
+
+> [!TIP]
+> Para restaurar la sesion al recargar la pagina, el frontend debe guardar el `accessToken` y llamar a `GET /api/auth/me` al iniciar, obteniendo el perfil actualizado (el rol y los datos vienen frescos de la base de datos, no del token).
 
 ## Despliegue con Docker
 
