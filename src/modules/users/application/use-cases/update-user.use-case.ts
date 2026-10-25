@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -12,13 +13,13 @@ import {
 import { UserEntity } from '../../domain/entities';
 import { UpdateUserDto } from '../dtos';
 import { MESSAGES } from '@/modules/shared/constants';
-import { hashPassword } from '@/modules/shared/utils';
 
 /**
  * Caso de Uso: Actualizar Usuario
  *
- * Actualiza los datos de un usuario (name, email, password).
+ * Actualiza los datos de un usuario (fullName, email).
  * No permite cambiar el rol - para eso está UpdateUserRoleUseCase.
+ * No permite cambiar la contraseña - para eso está UpdateUserPasswordUseCase.
  */
 @Injectable()
 export class UpdateUserUseCase {
@@ -41,7 +42,7 @@ export class UpdateUserUseCase {
     }
 
     if (user.getId() !== currentUserId) {
-      throw new ConflictException(
+      throw new ForbiddenException(
         'No tienes permiso para actualizar este usuario',
       );
     }
@@ -53,15 +54,10 @@ export class UpdateUserUseCase {
       }
     }
 
-    const hashedPassword = dto.password
-      ? await hashPassword(dto.password)
-      : user.getPassword();
-
     // Actualizar entidad de dominio
     user.update({
       email: dto.email || user.getEmail(),
       fullName: dto.fullName || user.getFullName(),
-      password: hashedPassword,
     });
 
     const updatedUser = await this.userRepository.save(user);

@@ -23,6 +23,7 @@ import {
   UpdateUserRoleDto,
   UserResponseDto,
   QueryUsersDto,
+  UpdateUserPasswordDto,
 } from '../../application/dtos';
 import { UserMapper } from '../persistence/mappers';
 import {
@@ -32,6 +33,7 @@ import {
   UpdateUserUseCase,
   UpdateUserRoleUseCase,
   SoftDeleteUserUseCase,
+  UpdateUserPasswordUseCase,
 } from '../../application/use-cases';
 import { CurrentUser, Roles } from '@/modules/shared/decorators';
 import { type JwtPayload, ValidRoles } from '@/modules/shared/interfaces';
@@ -52,6 +54,7 @@ export class UsersController {
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly listUsersUseCase: ListUsersUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
+    private readonly updateUserPasswordUseCase: UpdateUserPasswordUseCase,
     private readonly updateUserRoleUseCase: UpdateUserRoleUseCase,
     private readonly softDeleteUserUseCase: SoftDeleteUserUseCase,
   ) {}
@@ -109,6 +112,33 @@ export class UsersController {
   ): Promise<UserResponseDto> {
     const user = await this.findUserByIdUseCase.execute(id);
     return UserMapper.toResponse(user);
+  }
+
+  /**
+   * Actualizar mi contraseña
+   */
+  @Patch('me/password')
+  @ApiOperation({ summary: 'Actualizar mi contraseña' })
+  @ApiResponse({
+    status: 200,
+    description: 'Contraseña actualizada exitosamente',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'La contraseña actual es incorrecta o la nueva contraseña no es válida',
+  })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+  async updatePassword(
+    @Body() dto: UpdateUserPasswordDto,
+    @CurrentUser() user: JwtPayload,
+  ): Promise<UserResponseDto> {
+    const updatedUser = await this.updateUserPasswordUseCase.execute(
+      dto,
+      user.sub,
+    );
+    return UserMapper.toResponse(updatedUser);
   }
 
   /**

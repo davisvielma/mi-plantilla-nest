@@ -77,7 +77,6 @@ describe('UserEntity', () => {
       // Act
       user.update({
         email: 'updated@example.com',
-        password: 'new-hashed-password',
         fullName: 'Updated User',
       });
 
@@ -85,6 +84,45 @@ describe('UserEntity', () => {
       expect(user.getEmail()).toBe('updated@example.com');
       expect(user.getFullName()).toBe('Updated User');
       expect(user.getUpdatedAt()).toBeDefined();
+    });
+
+    it('trims the fullName before assigning it', () => {
+      // Arrange
+      const user = UserEntity.create(validUserData);
+
+      // Act
+      user.update({
+        email: 'updated@example.com',
+        fullName: '  Updated User  ',
+      });
+
+      // Assert
+      expect(user.getFullName()).toBe('Updated User');
+    });
+  });
+
+  describe('updatePassword', () => {
+    it('updates the password hash successfully', () => {
+      // Arrange
+      const user = UserEntity.create(validUserData);
+      const newPasswordHash = 'new-hashed-password';
+
+      // Act
+      user.updatePassword(newPasswordHash);
+
+      // Assert
+      expect(user.getPassword()).toBe(newPasswordHash);
+      expect(user.getUpdatedAt()).toBeDefined();
+    });
+
+    it('throws InvalidFormatException when the password is too short', () => {
+      // Arrange
+      const user = UserEntity.create(validUserData);
+
+      // Act & Assert
+      expect(() => user.updatePassword('short')).toThrow(
+        InvalidFormatException,
+      );
     });
   });
 

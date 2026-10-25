@@ -3,3 +3,4 @@ export * from './update-user.dto';
 export * from './update-user-role.dto';
 export * from './query-users.dto';
 export * from './user-response.dto';
+export * from './update-user-password.dto';

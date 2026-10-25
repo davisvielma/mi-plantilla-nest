@@ -7,12 +7,14 @@ import {
   UpdateUserUseCase,
   UpdateUserRoleUseCase,
   SoftDeleteUserUseCase,
+  UpdateUserPasswordUseCase,
 } from '../../application/use-cases';
 import {
   CreateUserDto,
   UpdateUserDto,
   UpdateUserRoleDto,
   QueryUsersDto,
+  UpdateUserPasswordDto,
 } from '../../application/dtos';
 
 describe('UsersController', () => {
@@ -61,6 +63,10 @@ describe('UsersController', () => {
     execute: jest.fn(),
   };
 
+  const mockUpdateUserPasswordUseCase = {
+    execute: jest.fn(),
+  };
+
   const mockSoftDeleteUserUseCase = {
     execute: jest.fn(),
   };
@@ -74,6 +80,10 @@ describe('UsersController', () => {
         { provide: ListUsersUseCase, useValue: mockListUsersUseCase },
         { provide: UpdateUserUseCase, useValue: mockUpdateUserUseCase },
         { provide: UpdateUserRoleUseCase, useValue: mockUpdateUserRoleUseCase },
+        {
+          provide: UpdateUserPasswordUseCase,
+          useValue: mockUpdateUserPasswordUseCase,
+        },
         { provide: SoftDeleteUserUseCase, useValue: mockSoftDeleteUserUseCase },
       ],
     }).compile();
@@ -166,6 +176,31 @@ describe('UsersController', () => {
       expect(mockUpdateUserUseCase.execute).toHaveBeenCalledWith(
         mockUserId,
         updateUserDto,
+        mockCurrentUserId,
+      );
+    });
+  });
+
+  describe('updatePassword', () => {
+    it('updates the current user password successfully', async () => {
+      // Arrange
+      const updateUserPasswordDto: UpdateUserPasswordDto = {
+        currentPassword: 'CurrentPass123',
+        newPassword: 'NewPass456',
+      };
+      mockUpdateUserPasswordUseCase.execute.mockResolvedValue(mockUserEntity);
+
+      // Act
+      const result = await controller.updatePassword(
+        updateUserPasswordDto,
+        mockJwtPayload,
+      );
+
+      // Assert
+      expect(result).toBeDefined();
+      expect(result.email).toBe('test@example.com');
+      expect(mockUpdateUserPasswordUseCase.execute).toHaveBeenCalledWith(
+        updateUserPasswordDto,
         mockCurrentUserId,
       );
     });

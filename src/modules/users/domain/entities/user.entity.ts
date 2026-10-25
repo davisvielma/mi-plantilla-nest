@@ -83,14 +83,27 @@ export class UserEntity extends Entity<IUser> {
   }
 
   /**
-   * Actualiza los datos del usuario (sin rol)
+   * Actualiza los datos del usuario (sin rol ni contraseña)
    */
   update(updateData: IUpdateUser): void {
     const email = Email.create(updateData.email);
-    const password = Password.create(updateData.password);
 
-    this.props.fullName = updateData.fullName;
+    this.props.fullName = updateData.fullName.trim();
     this.props.email = email.value;
+
+    this.props.updatedAt = new Date();
+
+    this.validate();
+  }
+
+  /**
+   * Actualiza la contraseña del usuario
+   *
+   * Recibe el hash ya calculado en la capa de infraestructura.
+   */
+  updatePassword(passwordHash: string): void {
+    const password = Password.create(passwordHash);
+
     this.props.password = password.value;
 
     this.props.updatedAt = new Date();

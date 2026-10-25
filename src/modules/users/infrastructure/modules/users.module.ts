@@ -11,6 +11,7 @@ import {
   UpdateUserUseCase,
   UpdateUserRoleUseCase,
   SoftDeleteUserUseCase,
+  UpdateUserPasswordUseCase,
 } from '../../application/use-cases';
 
 /**
@@ -37,6 +38,7 @@ import {
     UpdateUserUseCase,
     UpdateUserRoleUseCase,
     SoftDeleteUserUseCase,
+    UpdateUserPasswordUseCase,
   ],
   exports: [USER_REPOSITORY, ROLE_REPOSITORY],
 })

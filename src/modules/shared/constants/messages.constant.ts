@@ -16,6 +16,9 @@ export const MESSAGES = {
   USER_DELETED: 'Usuario eliminado exitosamente',
   USER_NOT_FOUND: 'Usuario no encontrado',
   USER_ALREADY_EXISTS: 'El email ya está registrado',
+  CURRENT_PASSWORD_INVALID: 'La contraseña actual es incorrecta',
+  PASSWORD_SAME_AS_CURRENT:
+    'La nueva contraseña debe ser diferente a la actual',
 
   // Autenticación
   LOGIN_SUCCESS: 'Inicio de sesión exitoso',

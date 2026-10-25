@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  NotFoundException,
+} from '@nestjs/common';
 import { UpdateUserUseCase } from './update-user.use-case';
 import { USER_REPOSITORY } from '../../domain/repositories';
 import { UpdateUserDto } from '../dtos';
@@ -14,7 +18,6 @@ describe('UpdateUserUseCase', () => {
   const mockUpdateUserDto: UpdateUserDto = {
     email: 'updated@example.com',
     fullName: 'Updated User',
-    password: 'NewPass123',
   };
 
   const mockUserEntity = {
@@ -81,7 +84,7 @@ describe('UpdateUserUseCase', () => {
     ).rejects.toThrow(NotFoundException);
   });
 
-  it('throws ConflictException when user is not the same user', async () => {
+  it('throws ForbiddenException when user is not the same user', async () => {
     // Arrange
     mockUserRepository.findById.mockResolvedValue(mockUserEntity);
     const differentUserId = 'different-user-uuid';
@@ -89,7 +92,7 @@ describe('UpdateUserUseCase', () => {
     // Act & Assert
     await expect(
       useCase.execute(mockUserId, mockUpdateUserDto, differentUserId),
-    ).rejects.toThrow(ConflictException);
+    ).rejects.toThrow(ForbiddenException);
   });
 
   it('throws ConflictException when email already exists', async () => {

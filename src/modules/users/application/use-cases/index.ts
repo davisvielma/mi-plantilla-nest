@@ -4,3 +4,4 @@ export * from './list-users.use-case';
 export * from './update-user.use-case';
 export * from './update-user-role.use-case';
 export * from './soft-delete-user.use-case';
+export * from './update-user-password.use-case';

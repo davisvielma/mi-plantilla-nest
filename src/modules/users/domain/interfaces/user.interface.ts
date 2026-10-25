@@ -25,7 +25,6 @@ export interface IUser {
 export interface IUpdateUser {
   email: string;
   fullName: string;
-  password: string;
 }
 
 /**
@@ -35,4 +34,5 @@ export interface IUpdateUser {
  */
 export interface ICreateUserEntity extends IUpdateUser {
   roleId: string;
+  password: string;
 }
