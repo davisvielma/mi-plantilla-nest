@@ -29,6 +29,17 @@ describe('AppController', () => {
   });
 
   describe('health', () => {
+    const fixedDate = new Date('2024-01-01T00:00:00.000Z');
+
+    beforeEach(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(fixedDate);
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
     it('should return health status ok when database is accessible', async () => {
       // Arrange
       mockDataSource.query.mockResolvedValue([{ '1': 1 }]);
@@ -39,7 +50,7 @@ describe('AppController', () => {
       // Assert
       expect(result).toEqual({
         status: 'ok',
-        timestamp: new Date().toISOString(),
+        timestamp: fixedDate.toISOString(),
         checks: { database: { status: 'ok' } },
       });
     });
@@ -54,7 +65,7 @@ describe('AppController', () => {
       // Assert
       expect(result).toEqual({
         status: 'error',
-        timestamp: new Date().toISOString(),
+        timestamp: fixedDate.toISOString(),
         checks: { database: { status: 'error' } },
       });
     });
